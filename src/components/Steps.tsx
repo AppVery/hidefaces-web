@@ -5,9 +5,22 @@ import CtaButton from './items/CtaButton';
 
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
   const [isModal, showModal] = useState(false);
+  const [windowOffset, setWindowOffset] = useState(0);
+  const openModal = () => {
+    const offset = window.scrollY;
+    setWindowOffset(offset);
+    document.body.setAttribute('style', `position: fixed; top: -${offset}px; left:0: right; 0;`);
+    showModal(true);
+  };
+  const closeModal = () => {
+    document.body.setAttribute('style', '');
+    window.scrollTo(0, windowOffset);
+    showModal(false);
+  };
+
   return (
     <section className="bg-gray-200 py-10 mt-10">
-      {isModal && <Modal fn={() => showModal(false)} />}
+      {isModal && <Modal fn={() => closeModal()} />}
       <Bar />
       <section ref={startRef}>
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:p/x-8">
@@ -67,7 +80,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
                       </div>
                     </div>
                     <div className="px-4 py-3 bg-gray-100 text-right sm:px-6">
-                      <CtaButton text="dev" onClick={() => showModal(true)} />
+                      <CtaButton text="dev" onClick={() => openModal()} />
                     </div>
                   </div>
                 </form>
