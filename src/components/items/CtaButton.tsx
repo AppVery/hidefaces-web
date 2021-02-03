@@ -2,7 +2,7 @@ import React from 'react';
 
 const CtaButton: React.FC<{
   text: string;
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: () => void;
 }> = ({ text, onClick }) => {
   return (
     <button

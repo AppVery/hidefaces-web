@@ -3,13 +3,13 @@ import Modal from './Modal';
 import Bar from './items/Bar';
 import CtaButton from './items/CtaButton';
 
-const Setps: React.FC = () => {
+const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
   const [isModal, showModal] = useState(false);
   return (
     <section className="bg-gray-200 py-10 mt-10">
       {isModal && <Modal fn={() => showModal(false)} />}
       <Bar />
-      <section>
+      <section ref={startRef}>
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:p/x-8">
           <h3 className="text-2xl leading-6 text-indigo-500 font-semibold uppercase">Step 1</h3>
           <div className="px-4 py-6 sm:px-0 ">
@@ -21,7 +21,6 @@ const Setps: React.FC = () => {
                     This information will be displayed publicly so be careful what you share.
                   </p>
                 </div>
-                section{' '}
               </div>
               <div className="mt-5 md:mt-0 md:col-span-2">
                 <form action="#">

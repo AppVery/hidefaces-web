@@ -4,6 +4,7 @@ import ImageMosaic from './items/ImageMosaic';
 import CtaButton from './items/CtaButton';
 import mainImage from '../svg/sides.svg';
 
+const cta = 'Get Started';
 const data: {
   title: string;
   subtitle: string;
@@ -22,11 +23,7 @@ const data: {
   },
 ];
 
-const Content: React.FC = () => {
-  //const myRef = React.createRef();
-  const handleClick = () => {
-    console.log('scroll');
-  };
+const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
   return (
     <>
       <section className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 lg:text-center">
@@ -37,8 +34,8 @@ const Content: React.FC = () => {
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
             {data[0].subtitle}
           </p>
-          <h2 className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">{data[0].text}</h2>
-          <CtaButton text="Go!" onClick={handleClick} />
+          <h2 className="my-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">{data[0].text}</h2>
+          <CtaButton text={cta} onClick={scroll} />
         </header>
         <div className="my-20 mx-2">
           <img
@@ -57,9 +54,10 @@ const Content: React.FC = () => {
               <p className="mt-2 text-2xl leading-8 font-extrabold text-gray-900 dark:text-white sm:text-3xl sm:leading-9">
                 {data[1].subtitle}
               </p>
-              <h3 className="mt-4 text-lg leading-6 text-gray-500 dark:text-gray-300">
+              <h3 className="my-4 text-lg leading-6 text-gray-500 dark:text-gray-300">
                 {data[1].text}
               </h3>
+              <CtaButton text={cta} onClick={scroll} />
             </header>
             <IconList />
           </div>
