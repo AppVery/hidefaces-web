@@ -1,26 +1,53 @@
-import React, { useState } from 'react';
-import Modal from './Modal';
+import React, { useState, useEffect } from 'react';
+import StripeModal from './StripeModal';
+import { Elements, StripeProvider } from 'react-stripe-elements';
 import CtaButton from './items/CtaButton';
 
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
-  const [isModal, showModal] = useState(false);
+  const [stripe, setStripe] = useState<any>(null);
+
+  useEffect(() => {
+    setStripe(window.Stripe('sdffsdfjkewfklesjl'));
+    console.log('stripe dev', stripe);
+  }, []);
+  const [isStripeModal, showStripeModal] = useState(false);
   const [windowOffset, setWindowOffset] = useState(0);
-  const openModal = (e: React.FormEvent<HTMLInputElement>) => {
+  const startPayment = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
+    openModal();
+  };
+  const openModal = () => {
     const offset = window.scrollY;
     setWindowOffset(offset);
     document.body.setAttribute('style', `position: fixed; top: -${offset}px; left:0: right; 0;`);
-    showModal(true);
+    showStripeModal(true);
   };
   const closeModal = () => {
     document.body.setAttribute('style', '');
     window.scrollTo(0, windowOffset);
-    showModal(false);
+    showStripeModal(false);
+  };
+  const showModal = () => {
+    return (
+      <div className="Settings">
+        <StripeProvider stripe={stripe}>
+          <Elements
+            fonts={[
+              {
+                cssSrc: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800',
+              },
+            ]}
+          >
+            <StripeModal fn={() => closeModal()} />
+          </Elements>
+        </StripeProvider>
+      </div>
+    );
   };
 
   return (
     <section className="bg-gray-200 py-2 mt-10">
-      {isModal && <Modal fn={() => closeModal()} />}
+      {isStripeModal && showModal()}
       <form action="#">
         <section ref={startRef}>
           <div className="max-w-7xl mx-auto sm:px-6 lg:p/x-8">
@@ -157,7 +184,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
                     <div className="px-4 py-3 bg-gray-100 text-right sm:px-6">
                       <CtaButton
                         text="Pay 1.5€"
-                        onClick={(e: React.FormEvent<HTMLInputElement>) => openModal(e)}
+                        onClick={(e: React.FormEvent<HTMLInputElement>) => startPayment(e)}
                       />
                     </div>
                   </div>
