@@ -4,7 +4,7 @@ import ImageMosaic from './items/ImageMosaic';
 import CtaButton from './items/CtaButton';
 import mainImage from '../svg/sides.svg';
 
-const cta = 'Get Started';
+const cta = 'Get started';
 const data: {
   title: string;
   subtitle: string;

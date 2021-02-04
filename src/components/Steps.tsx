@@ -6,7 +6,8 @@ import CtaButton from './items/CtaButton';
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
   const [isModal, showModal] = useState(false);
   const [windowOffset, setWindowOffset] = useState(0);
-  const openModal = () => {
+  const openModal = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const offset = window.scrollY;
     setWindowOffset(offset);
     document.body.setAttribute('style', `position: fixed; top: -${offset}px; left:0: right; 0;`);
@@ -80,7 +81,10 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
                       </div>
                     </div>
                     <div className="px-4 py-3 bg-gray-100 text-right sm:px-6">
-                      <CtaButton text="dev" onClick={() => openModal()} />
+                      <CtaButton
+                        text="dev"
+                        onClick={(e: React.FormEvent<HTMLInputElement>) => openModal(e)}
+                      />
                     </div>
                   </div>
                 </form>
