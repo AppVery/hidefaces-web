@@ -1,52 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import StripeModal from './StripeModal';
-import { Elements, StripeProvider } from 'react-stripe-elements';
-import CtaButton from './items/CtaButton';
-import config from '../config';
+import React, { useState } from 'react';
+import Stripe from './Stripe';
 
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
-  const [stripe, setStripe] = useState<any>(null);
-
-  useEffect(() => {
-    setStripe(window.Stripe(config.STRIPE_KEY));
-    console.log('stripe dev', stripe);
-  }, []);
-  const [isStripeModal, showStripeModal] = useState(false);
+  const [isModal, showModal] = useState(false);
   const [windowOffset, setWindowOffset] = useState(0);
-  const startPayment = (e: React.FormEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    openModal();
-  };
+
   const openModal = () => {
     const offset = window.scrollY;
     setWindowOffset(offset);
     document.body.setAttribute('style', `position: fixed; top: -${offset}px; left:0: right; 0;`);
-    showStripeModal(true);
+    showModal(true);
   };
   const closeModal = () => {
     document.body.setAttribute('style', '');
     window.scrollTo(0, windowOffset);
-    showStripeModal(false);
-  };
-  const showModal = () => {
-    return (
-      <StripeProvider stripe={stripe}>
-        <Elements
-          fonts={[
-            {
-              cssSrc: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800',
-            },
-          ]}
-        >
-          <StripeModal fn={() => closeModal()} />
-        </Elements>
-      </StripeProvider>
-    );
+    showModal(false);
   };
 
   return (
     <section className="bg-gray-200 py-2 mt-10">
-      {isStripeModal && showModal()}
       <form action="#">
         <section ref={startRef}>
           <div className="max-w-7xl mx-auto sm:px-6 lg:p/x-8">
@@ -165,29 +137,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
                     the indicated email, and all the information used during the process is deleted.
                   </p>
                 </div>
-                <div className="mt-5 md:mt-0 md:col-span-2">
-                  <div className="shadow sm:rounded-md sm:overflow-hidden">
-                    <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                      <div className="grid grid-cols-3 gap-6">
-                        <div className="col-span-3 sm:col-span-2">
-                          <input
-                            type="text"
-                            name="email"
-                            id="email"
-                            className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
-                            placeholder="myname@gmail.com"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="px-4 py-3 bg-gray-100 text-right sm:px-6">
-                      <CtaButton
-                        text="Pay 1.5€"
-                        onClick={(e: React.FormEvent<HTMLInputElement>) => startPayment(e)}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <Stripe />
               </div>
             </div>
           </div>
