@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import StripeModal from './StripeModal';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import CtaButton from './items/CtaButton';
+import config from '../config';
 
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
   const [stripe, setStripe] = useState<any>(null);
 
   useEffect(() => {
-    setStripe(window.Stripe('sdffsdfjkewfklesjl'));
+    setStripe(window.Stripe(config.STRIPE_KEY));
     console.log('stripe dev', stripe);
   }, []);
   const [isStripeModal, showStripeModal] = useState(false);
@@ -29,19 +30,17 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
   };
   const showModal = () => {
     return (
-      <div className="Settings">
-        <StripeProvider stripe={stripe}>
-          <Elements
-            fonts={[
-              {
-                cssSrc: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800',
-              },
-            ]}
-          >
-            <StripeModal fn={() => closeModal()} />
-          </Elements>
-        </StripeProvider>
-      </div>
+      <StripeProvider stripe={stripe}>
+        <Elements
+          fonts={[
+            {
+              cssSrc: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800',
+            },
+          ]}
+        >
+          <StripeModal fn={() => closeModal()} />
+        </Elements>
+      </StripeProvider>
     );
   };
 
