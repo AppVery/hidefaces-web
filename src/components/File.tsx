@@ -3,7 +3,23 @@ import { fileContent } from '../content/steps';
 
 const { text1, text2, text3 } = fileContent;
 
-const File: React.FC = () => {
+const File: React.FC<{
+  setFile: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ setFile }) => {
+  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const files = e.currentTarget.files;
+    if (files && files.length > 0) {
+      const { name, size, type } = files[0];
+      const videoData = {
+        name,
+        extension: name.replace(/^.*\./, ''),
+        megabytes: Math.round(size / 1024 / 1024),
+        type,
+      };
+      console.log(videoData);
+      setFile(name);
+    }
+  };
   return (
     <div className="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
       <div className="space-y-1 text-center">
@@ -27,7 +43,13 @@ const File: React.FC = () => {
             className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
           >
             <span>{text1}</span>
-            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+            <input
+              id="file-upload"
+              name="file-upload"
+              type="file"
+              className="sr-only"
+              onChange={onChange}
+            />
           </label>
           <p className="pl-1">{text2}</p>
         </div>
