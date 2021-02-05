@@ -1,4 +1,7 @@
 import React from 'react';
+import { fileContent } from '../content/steps';
+
+const { text1, text2, text3 } = fileContent;
 
 const File: React.FC = () => {
   return (
@@ -23,12 +26,12 @@ const File: React.FC = () => {
             htmlFor="file-upload"
             className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
           >
-            <span>Upload a file</span>
+            <span>{text1}</span>
             <input id="file-upload" name="file-upload" type="file" className="sr-only" />
           </label>
-          <p className="pl-1">or drag and drop</p>
+          <p className="pl-1">{text2}</p>
         </div>
-        <p className="text-xs text-gray-500">mov, mpg, mpeg, mp4, wmv, avi, webm up to 500MB</p>
+        <p className="text-xs text-gray-500">{text3}</p>
       </div>
     </div>
   );

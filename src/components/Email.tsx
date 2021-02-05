@@ -1,4 +1,5 @@
 import React from 'react';
+import { emailContent } from '../content/steps';
 
 const Email: React.FC = () => {
   return (
@@ -11,9 +12,7 @@ const Email: React.FC = () => {
         placeholder="myname@gmail.com"
       />
       <label htmlFor="email" className="mt-4 block text-xs text-gray-400">
-        This email is not saved anywhere. We won’t send you any emails other than the link to
-        download the new video from our servers in AWS. For further details, review our Privacy
-        Policy.
+        {emailContent.note}
       </label>
     </div>
   );

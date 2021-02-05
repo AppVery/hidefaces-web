@@ -3,6 +3,7 @@ import { Elements, StripeProvider } from 'react-stripe-elements';
 import { CardElement, injectStripe, ReactStripeElements } from 'react-stripe-elements';
 import CtaButton from './CtaButton';
 import config from '../config';
+import { stripeContent } from '../content/steps';
 
 const StripeCardElement: React.FC<{
   stripe: ReactStripeElements.StripeProps;
@@ -35,7 +36,7 @@ const StripeCardElement: React.FC<{
       <img className="rounded-lg shadow-lg" src={`/images/stripe.png`} alt="stripe-badge" />
       <div className="text-right">
         <CtaButton
-          text="Pay 1.5€"
+          text={stripeContent.button}
           onClick={(e: React.FormEvent<HTMLInputElement>) => getToken(e)}
         />
       </div>
