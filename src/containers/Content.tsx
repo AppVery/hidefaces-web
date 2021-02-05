@@ -1,7 +1,7 @@
 import React from 'react';
-import IconList from './items/IconList';
-import ImageMosaic from './items/ImageMosaic';
-import CtaButton from './items/CtaButton';
+import IconList from '../components/IconList';
+import ImageMosaic from '../components/ImageMosaic';
+import CtaButton from '../components/CtaButton';
 import mainImage from '../svg/sides.svg';
 
 const cta = 'Get started';

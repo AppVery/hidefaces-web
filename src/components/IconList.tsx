@@ -1,8 +1,8 @@
 import React from 'react';
-import deleteIcon from '../../svg/delete.svg';
-import robotIcon from '../../svg/robot.svg';
-import monkeyIcon from '../../svg/monkey.svg';
-import pushIcon from '../../svg/push.svg';
+import deleteIcon from '../svg/delete.svg';
+import robotIcon from '../svg/robot.svg';
+import monkeyIcon from '../svg/monkey.svg';
+import pushIcon from '../svg/push.svg';
 
 const data: { icon: string; text: string }[] = [
   { icon: pushIcon, text: 'Easy to use solution' },

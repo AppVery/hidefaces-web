@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import Header from './components/Header';
-import Content from './components/Content';
-import Steps from './components/Steps';
-import Footer from './components/Footer';
+import Header from './containers/Header';
+import Content from './containers/Content';
+import Steps from './containers/Steps';
+import Footer from './containers/Footer';
 
 const App: React.FC = () => {
   const startRef = useRef<HTMLInputElement>(null);

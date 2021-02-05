@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Stripe from './Stripe';
+import Stripe from '../components/Stripe';
 
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
   const [isModal, showModal] = useState(false);

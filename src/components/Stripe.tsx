@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import { CardElement, injectStripe, ReactStripeElements } from 'react-stripe-elements';
-import CtaButton from './items/CtaButton';
+import CtaButton from './CtaButton';
 import config from '../config';
 
 const StripeCardElement: React.FC<{
