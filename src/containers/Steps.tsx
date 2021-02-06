@@ -134,10 +134,10 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
     <section ref={startRef} className="bg-gray-200 py-2 mt-10">
       {isModal && <Modal data={modalData} fn={closeModal} />}
       <form>
-        <Step content={stepsContent[0]} border={false}>
+        <Step content={stepsContent[0]} topBorder={false} ready={!!file}>
           <File setFile={setFile} />
         </Step>
-        <Step content={stepsContent[1]}>
+        <Step content={stepsContent[1]} ready={!!email}>
           <Email setEmail={setEmail} />
         </Step>
         <Step content={stepsContent[2]}>
