@@ -1,17 +1,11 @@
 const dev = {
+  endpoint: 'https://api.hidefaces.app/dev/payment',
   STRIPE_KEY: 'pk_test_dWFGbfBf1OkmSoNS8QAu1R7a00HSKb10om',
-  apiGateway: {
-    REGION: 'eu-west-1',
-    URL: 'https://api.hidefaces.app/dev',
-  },
 };
 
 const prod = {
+  endpoint: 'https://api.hidefaces.app/prod/payment',
   STRIPE_KEY: 'pk_live_QzLlwFKdgLUAS3IzSOI1x9O800kdiQ1yrJ',
-  apiGateway: {
-    REGION: 'eu-west-1',
-    URL: 'https://api.hidefaces.app/prod',
-  },
 };
 
 const config = {

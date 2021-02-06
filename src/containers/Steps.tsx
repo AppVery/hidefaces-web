@@ -5,11 +5,13 @@ import File from '../components/File';
 import Email from '../components/Email';
 import Stripe from '../components/Stripe';
 import { stepsContent } from '../content/steps';
+import config from '../config';
+import axios from 'axios';
 
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
   const [isModal, showModal] = useState(false);
   const [windowOffset, setWindowOffset] = useState(0);
-  const [file, setFile] = useState<string>('');
+  const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState<string>('');
   const [modalData, setModalData] = useState<{
     error: boolean;
@@ -35,7 +37,61 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
     showModal(false);
   };
 
-  const handlePay = (token: stripe.Token | undefined) => {
+  const getTempUploadUrl = async (token: string) => {
+    try {
+      const response = await axios.post(config.endpoint, { email, token });
+
+      if (200 === response.status) {
+        setModalData({
+          error: false,
+          title: 'Satisfactory payment',
+          text: 'Starting the video upload',
+          loading: true,
+        });
+        const { id, url } = response.data;
+
+        return { id, url };
+      } else {
+        throw Error();
+      }
+    } catch (error) {
+      setModalData({
+        error: true,
+        title: 'Error with the payment',
+        text: `Please try again after a few minutes or contact with info@hidefaces.app`,
+        loading: false,
+      });
+      return { id: null, url: null };
+    }
+  };
+
+  const uploadVideo = async (id: string, tempUploadUrl: string) => {
+    console.log('uploading...', id, tempUploadUrl);
+    try {
+      const response = await axios.put(tempUploadUrl, file);
+
+      console.log('axios response', response);
+      if (200 === response.status) {
+        setModalData({
+          error: false,
+          title: 'Start of video processing',
+          text: `In less than half an hour you will receive it in your email: ${email}`,
+          loading: false,
+        });
+      } else {
+        throw Error();
+      }
+    } catch (error) {
+      setModalData({
+        error: true,
+        title: 'Error with the video',
+        text: `Please contact with info@hidefaces.app requesting a refund of the payment with the code: ${id}`,
+        loading: false,
+      });
+    }
+  };
+
+  const handlePay = async (token: stripe.Token | undefined) => {
     console.log('submit');
     console.log(token, email, file);
     if (file && email && token) {
@@ -45,22 +101,11 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
         text: 'Processing the payment',
         loading: true,
       });
-      setTimeout(() => {
-        setModalData({
-          error: false,
-          title: 'Satisfactory payment',
-          text: 'Starting the video upload',
-          loading: true,
-        });
-        setTimeout(() => {
-          setModalData({
-            error: false,
-            title: 'Start of video processing',
-            text: `In less than half an hour you will receive it in your email: ${email}`,
-            loading: false,
-          });
-        }, 4000);
-      }, 4000);
+      openModal();
+      const { id, url } = await getTempUploadUrl(token.id);
+      if (id && url) {
+        await uploadVideo(id, url);
+      }
     } else {
       const title = [];
       const text = [];
@@ -81,8 +126,8 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
         title: `Error on: ${title.join(', ')}`,
         text: `Please check your: ${text.join(', ')}`,
       });
+      openModal();
     }
-    openModal();
   };
 
   return (

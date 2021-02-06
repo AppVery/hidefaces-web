@@ -8,7 +8,7 @@ const error = 'Please enter valid video file';
 const validVideoTypes = ['mp4', 'mkv'];
 
 const File: React.FC<{
-  setFile: React.Dispatch<React.SetStateAction<string>>;
+  setFile: React.Dispatch<React.SetStateAction<File | null>>;
 }> = ({ setFile }) => {
   const [isError, setIsError] = useState<boolean>(false);
   const [isOkFile, setIsOkFile] = useState<boolean>(false);
@@ -16,24 +16,20 @@ const File: React.FC<{
     setIsError(false);
     const files = e.currentTarget.files;
     if (files && files.length > 0) {
-      const { name, size, type } = files[0];
-      const videoData = {
-        name,
-        extension: name.replace(/^.*\./, ''),
-        megabytes: Math.round(size / 1024 / 1024),
-        type,
-      };
-      console.log(videoData);
+      const file = files[0];
+      const extension = file.name.replace(/^.*\./, '');
+      const megabytes = Math.round(file.size / 1024 / 1024);
+      console.log(file.name, extension, megabytes);
 
-      if (validVideoTypes.includes(videoData.extension) && videoData.megabytes < 500) {
-        setFile(name);
+      if (validVideoTypes.includes(extension) && megabytes < 500) {
+        setFile(file);
         setIsOkFile(true);
       } else {
-        setFile('');
+        setFile(null);
         setIsError(true);
       }
     } else {
-      setFile('');
+      setFile(null);
       setIsError(true);
     }
   };
