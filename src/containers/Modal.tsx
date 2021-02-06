@@ -58,9 +58,11 @@ const Modal: React.FC<{
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             {loading ? (
-              <span className="loading rounded-full bg-yellow-500">
-                <img className="h-10 w-10" src={loaderIcon} alt="Loading video" />
-              </span>
+              <div className="w-full inline-flex justify-center sm:ml-3 sm:w-auto sm:text-sm">
+                <span className="loading rounded-full bg-yellow-500">
+                  <img className="h-10 w-10" src={loaderIcon} alt="Loading video" />
+                </span>
+              </div>
             ) : (
               <button
                 type="button"

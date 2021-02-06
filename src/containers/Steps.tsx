@@ -55,8 +55,8 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
         setTimeout(() => {
           setModalData({
             error: false,
-            title: 'Video uploaded successfully',
-            text: `Start of video processing: In less than half an hour you will receive it in your email: ${email}`,
+            title: 'Start of video processing',
+            text: `In less than half an hour you will receive it in your email: ${email}`,
             loading: false,
           });
         }, 4000);
