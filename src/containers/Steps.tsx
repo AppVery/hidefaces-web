@@ -4,7 +4,8 @@ import Step from '../components/Step';
 import File from '../components/File';
 import Email from '../components/Email';
 import Stripe from '../components/Stripe';
-import { stepsContent } from '../content/steps';
+import timerIcon from '../svg/timer.svg';
+import { stepsContent, waitContent } from '../content/steps';
 import config from '../config';
 import axios from 'axios';
 
@@ -142,6 +143,14 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
         </Step>
         <Step content={stepsContent[2]}>
           <Stripe email={email} handlePay={handlePay} />
+        </Step>
+        <Step content={stepsContent[3]}>
+          <div className="flex items-center">
+            <img className="h-12 w-12" src={timerIcon} alt="Timer Icon" />
+            <span className="ml-4 text-base leading-6 font-medium text-gray-500">
+              {waitContent.text}
+            </span>
+          </div>
         </Step>
       </form>
     </section>
