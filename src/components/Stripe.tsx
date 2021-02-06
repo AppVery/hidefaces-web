@@ -6,17 +6,22 @@ import config from '../config';
 import { stripeContent } from '../content/steps';
 
 const StripeCardElement: React.FC<{
+  email: string;
+  handlePay: (token: stripe.Token | undefined) => void;
   stripe: ReactStripeElements.StripeProps;
-}> = ({ stripe }) => {
+}> = ({ email, handlePay, stripe }) => {
   const [isCardComplete, setIsCardComplete] = useState(false);
   const getToken = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     console.log('init stripe payment');
-    if (stripe) {
+    if (email && isCardComplete && stripe) {
       const { token, error } = await stripe.createToken({
-        name: 'HideFaces',
+        name: email,
       });
-      console.log(token, error);
+      console.log(token, error, isCardComplete);
+      handlePay(token);
+    } else {
+      handlePay(undefined);
     }
   };
 
@@ -45,10 +50,15 @@ const StripeCardElement: React.FC<{
 };
 
 const InjectStripeCardElement = injectStripe<{
+  email: string;
+  handlePay: (token: stripe.Token | undefined) => void;
   stripe?: ReactStripeElements.StripeProps;
 }>(StripeCardElement);
 
-const Stripe: React.FC = () => {
+const Stripe: React.FC<{
+  email: string;
+  handlePay: (token: stripe.Token | undefined) => void;
+}> = ({ email, handlePay }) => {
   return (
     <StripeProvider apiKey={config.STRIPE_KEY}>
       <Elements
@@ -58,7 +68,7 @@ const Stripe: React.FC = () => {
           },
         ]}
       >
-        <InjectStripeCardElement />
+        <InjectStripeCardElement email={email} handlePay={handlePay} />
       </Elements>
     </StripeProvider>
   );

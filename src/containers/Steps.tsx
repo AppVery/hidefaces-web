@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Modal from './Modal';
 import Step from '../components/Step';
 import File from '../components/File';
 import Email from '../components/Email';
@@ -6,11 +7,15 @@ import Stripe from '../components/Stripe';
 import { stepsContent } from '../content/steps';
 
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
-  const [file, setFile] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-
   const [isModal, showModal] = useState(false);
   const [windowOffset, setWindowOffset] = useState(0);
+  const [file, setFile] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [modalData, setModalData] = useState<{ error: boolean; title: string; text: string }>({
+    error: true,
+    title: 'Error',
+    text: 'Check steps errors',
+  });
 
   const openModal = () => {
     const offset = window.scrollY;
@@ -24,14 +29,43 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
     showModal(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    console.log('submit', e);
-    e.preventDefault();
+  const handlePay = (token: stripe.Token | undefined) => {
+    console.log('submit');
+    console.log(token, email, file);
+    if (file && email && token) {
+      setModalData({
+        error: false,
+        title: 'Correct data',
+        text: 'Starting the video upload',
+      });
+    } else {
+      const title = [];
+      const text = [];
+      if (!file) {
+        title.push('Step 1');
+        text.push('video');
+      }
+      if (!email) {
+        title.push('Step 2');
+        text.push('email');
+      }
+      if (!token) {
+        title.push('Step 3');
+        text.push('credit card');
+      }
+      setModalData({
+        error: true,
+        title: `Error on: ${title.join(', ')}`,
+        text: `Please check your: ${text.join(', ')}`,
+      });
+    }
+    openModal();
   };
 
   return (
     <section ref={startRef} className="bg-gray-200 py-2 mt-10">
-      <form onSubmit={handleSubmit}>
+      {isModal && <Modal data={modalData} fn={closeModal} />}
+      <form>
         <Step content={stepsContent[0]} border={false}>
           <File setFile={setFile} />
         </Step>
@@ -39,7 +73,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
           <Email setEmail={setEmail} email={email} />
         </Step>
         <Step content={stepsContent[2]}>
-          <Stripe />
+          <Stripe email={email} handlePay={handlePay} />
         </Step>
       </form>
     </section>
