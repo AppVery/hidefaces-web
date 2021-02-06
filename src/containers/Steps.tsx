@@ -7,6 +7,7 @@ import Stripe from '../components/Stripe';
 import timerIcon from '../svg/timer.svg';
 import { stepsContent, waitContent } from '../content/steps';
 import config from '../config';
+import { Token } from '@stripe/stripe-js';
 import axios from 'axios';
 
 const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
@@ -92,9 +93,8 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
     }
   };
 
-  const handlePay = async (token: stripe.Token | undefined) => {
-    console.log('submit');
-    console.log(token, email, file);
+  const handlePay = async (token: Token | undefined) => {
+    console.log('handlePay', token);
     if (file && email && token) {
       setModalData({
         error: false,
