@@ -15,7 +15,13 @@ export const stepsContent = [
     title: 'Step 3',
     subtitle: 'Secure payment',
     description:
-      'Only after payment, the video is sent to the servers to be processed with the help of artificial intelligence. When the process ends, the new video is sent to the indicated email, and all the information used during the process is deleted.',
+      'Only after payment, the video is sent to the servers to be processed with the help of artificial intelligence. The payment helps to maintain the powerful servers that do this complex task in an anonymous and automatic way.',
+  },
+  {
+    title: 'Step 4',
+    subtitle: 'Wait during processing',
+    description:
+      'The video is processed on a server automatically thanks to artificial intelligence. The original and the new video are deleted after the expiration of the download link.',
   },
 ];
 
@@ -27,9 +33,14 @@ export const fileContent = {
 
 export const emailContent = {
   note:
-    'This email is not saved anywhere. We won’t send you any emails other than the link to download the new video from our servers in AWS. For further details, review our Privacy Policy.',
+    'We won’t send you any emails other than the link to download the new video from our servers in AWS. This email is only saved to complete the process. For further details, review our Privacy Policy.',
 };
 
 export const stripeContent = {
   button: 'Pay 1.5€',
+};
+
+export const waitContent = {
+  text:
+    'After less than 30 minutes, a new video with the hidden faces is created and a temporary download link is emailed to you.',
 };
