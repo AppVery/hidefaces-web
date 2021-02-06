@@ -22,7 +22,7 @@ export const stepsContent = [
 export const fileContent = {
   text1: 'Upload a file',
   text2: 'or drag and drop',
-  text3: 'mov, mpg, mpeg, mp4, wmv, avi, webm up to 500MB',
+  text3: 'mpg, mpeg, mp4, wmv, mkv, avi, webm up to 500MB',
 };
 
 export const emailContent = {

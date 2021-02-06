@@ -1,10 +1,11 @@
 import React from 'react';
+import loaderIcon from '../svg/loader.svg';
 
 const Modal: React.FC<{
-  data: { error: boolean; title: string; text: string };
+  data: { error: boolean; title: string; text: string; loading?: boolean };
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ data, fn }) => {
-  const { error, title, text } = data;
+  const { error, title, text, loading } = data;
   const iconColor = error ? 'yellow' : 'green';
   return (
     <aside className="fixed z-10 inset-0 overflow-y-auto">
@@ -56,13 +57,19 @@ const Modal: React.FC<{
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button
-              type="button"
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={fn}
-            >
-              Close
-            </button>
+            {loading ? (
+              <span className="loading rounded-full bg-yellow-500">
+                <img className="h-10 w-10" src={loaderIcon} alt="Loading video" />
+              </span>
+            ) : (
+              <button
+                type="button"
+                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+                onClick={fn}
+              >
+                Close
+              </button>
+            )}
           </div>
         </div>
       </div>

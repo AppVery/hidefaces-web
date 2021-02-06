@@ -11,10 +11,16 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
   const [windowOffset, setWindowOffset] = useState(0);
   const [file, setFile] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [modalData, setModalData] = useState<{ error: boolean; title: string; text: string }>({
+  const [modalData, setModalData] = useState<{
+    error: boolean;
+    title: string;
+    text: string;
+    loading?: boolean;
+  }>({
     error: true,
     title: 'Error',
     text: 'Check steps errors',
+    loading: false,
   });
 
   const openModal = () => {
@@ -35,9 +41,26 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
     if (file && email && token) {
       setModalData({
         error: false,
-        title: 'Correct data',
-        text: 'Starting the video upload',
+        title: 'Correct data on all steps',
+        text: 'Processing the payment',
+        loading: true,
       });
+      setTimeout(() => {
+        setModalData({
+          error: false,
+          title: 'Satisfactory payment',
+          text: 'Starting the video upload',
+          loading: true,
+        });
+        setTimeout(() => {
+          setModalData({
+            error: false,
+            title: 'Video uploaded successfully',
+            text: `Start of video processing: In less than half an hour you will receive it in your email: ${email}`,
+            loading: false,
+          });
+        }, 4000);
+      }, 4000);
     } else {
       const title = [];
       const text = [];
@@ -70,7 +93,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
           <File setFile={setFile} />
         </Step>
         <Step content={stepsContent[1]}>
-          <Email setEmail={setEmail} email={email} />
+          <Email setEmail={setEmail} />
         </Step>
         <Step content={stepsContent[2]}>
           <Stripe email={email} handlePay={handlePay} />
