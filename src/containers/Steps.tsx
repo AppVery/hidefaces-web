@@ -23,7 +23,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
   }>({
     error: true,
     title: 'Error',
-    text: 'Check steps errors',
+    text: 'Check step error',
     loading: false,
   });
 
@@ -47,7 +47,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
         setModalData({
           error: false,
           title: 'Satisfactory payment',
-          text: 'Starting the video upload',
+          text: 'Start video upload',
           loading: true,
         });
         const { id, url } = response.data;
@@ -60,7 +60,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
       setModalData({
         error: true,
         title: 'Error with the payment',
-        text: `Please try again after a few minutes or contact with info@hidefaces.app`,
+        text: `Please try again in a few minutes or contact info@hidefaces.app`,
         loading: false,
       });
       return { id: null, url: null };
@@ -76,8 +76,8 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
       if (200 === response.status) {
         setModalData({
           error: false,
-          title: 'Start of video processing',
-          text: `In less than half an hour you will receive it in your email: ${email}`,
+          title: 'Start video processing',
+          text: `In less than half an hour, you will receive it via email info@es.es: ${email}`,
           loading: false,
         });
       } else {
@@ -86,8 +86,8 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
     } catch (error) {
       setModalData({
         error: true,
-        title: 'Error with the video',
-        text: `Please contact with info@hidefaces.app requesting a refund of the payment with the code: ${id}`,
+        title: 'Video error',
+        text: `Please contact us via info@hidefaces.app to request a refund using code: ${id}`,
         loading: false,
       });
     }
@@ -99,7 +99,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
       setModalData({
         error: false,
         title: 'Correct data on all steps',
-        text: 'Processing the payment',
+        text: 'Process payment',
         loading: true,
       });
       openModal();
