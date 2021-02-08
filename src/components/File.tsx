@@ -7,28 +7,53 @@ const { text1, text2, text3 } = fileContent;
 const error = 'Please enter valid video file';
 const validVideoTypes = ['mp4', 'mkv'];
 
+const loadVideo = (file: File) =>
+  new Promise((resolve, reject) => {
+    try {
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+
+      video.onloadedmetadata = function () {
+        resolve(this);
+      };
+
+      video.onerror = function () {
+        reject('Invalid video. Please select a video file.');
+      };
+
+      video.src = window.URL.createObjectURL(file);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
 const File: React.FC<{
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
 }> = ({ setFile }) => {
   const [isError, setIsError] = useState<boolean>(false);
   const [isOkFile, setIsOkFile] = useState<boolean>(false);
-  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setIsError(false);
-    const files = e.currentTarget.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      const extension = file.name.replace(/^.*\./, '');
-      const megabytes = Math.round(file.size / 1024 / 1024);
-      console.log(file.name, extension, megabytes);
+  const onChange = async (e: React.FormEvent<HTMLInputElement>) => {
+    try {
+      setIsError(false);
+      const files = e.currentTarget.files;
+      if (files && files.length > 0) {
+        const file = files[0];
+        const video: any = await loadVideo(file);
+        const duration: number = video.duration ?? 100;
+        const extension = file.name.replace(/^.*\./, '');
+        const megabytes = Math.round(file.size / 1024 / 1024);
+        console.log(file.name, extension, megabytes);
 
-      if (validVideoTypes.includes(extension) && megabytes < 500) {
-        setFile(file);
-        setIsOkFile(true);
+        if (validVideoTypes.includes(extension) && duration < 60 && megabytes < 200) {
+          setFile(file);
+          setIsOkFile(true);
+        } else {
+          throw Error();
+        }
       } else {
-        setFile(null);
-        setIsError(true);
+        throw Error();
       }
-    } else {
+    } catch (error) {
       setFile(null);
       setIsError(true);
     }
