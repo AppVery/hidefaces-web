@@ -2,10 +2,10 @@ import React from 'react';
 import loaderIcon from '../svg/loader.svg';
 
 const Modal: React.FC<{
-  data: { error: boolean; title: string; text: string; loading?: boolean };
+  data: { error: boolean; title: string; html: string; loading?: boolean };
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ data, fn }) => {
-  const { error, title, text, loading } = data;
+  const { error, title, html, loading } = data;
   const iconColor = error ? 'yellow' : 'green';
   return (
     <aside className="fixed z-10 inset-0 overflow-y-auto">
@@ -51,7 +51,10 @@ const Modal: React.FC<{
                   {title}
                 </h3>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">{text}</p>
+                  <div
+                    className="text-sm text-gray-500"
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  ></div>
                 </div>
               </div>
             </div>

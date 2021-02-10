@@ -18,12 +18,12 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
   const [modalData, setModalData] = useState<{
     error: boolean;
     title: string;
-    text: string;
+    html: string;
     loading?: boolean;
   }>({
     error: true,
     title: 'Error',
-    text: 'Check step error',
+    html: 'Check step error',
     loading: false,
   });
 
@@ -41,16 +41,16 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
 
   const getTempUploadUrl = async (token: string) => {
     try {
-      const response = await axios.post(config.endpoint, { email, token });
-
-      if (200 === response.status) {
+      const result = await axios.post(config.endpoint, { email, token, filename: file?.name });
+      console.log('url', result);
+      if (200 === result.status) {
         setModalData({
           error: false,
           title: 'Satisfactory payment',
-          text: 'Start video upload',
+          html: 'Start video upload',
           loading: true,
         });
-        const { id, url } = response.data;
+        const { id, url } = result.data.response;
 
         return { id, url };
       } else {
@@ -60,7 +60,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
       setModalData({
         error: true,
         title: 'Error with the payment',
-        text: `Please try again in a few minutes or contact info@hidefaces.app`,
+        html: `Please try again in a few minutes or contact <strong>info@hidefaces.app</strong>`,
         loading: false,
       });
       return { id: null, url: null };
@@ -77,9 +77,11 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
         setModalData({
           error: false,
           title: 'Start video processing',
-          text: `In less than half an hour, you will receive it via email info@es.es: ${email}`,
+          html: `The tracking code is: <strong>${id}</strong>. In less than 30 minutes, you will receive it via email: <strong>${email}</strong>.`,
           loading: false,
         });
+        setFile(null);
+        setEmail('');
       } else {
         throw Error();
       }
@@ -87,7 +89,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
       setModalData({
         error: true,
         title: 'Video error',
-        text: `Please contact us via info@hidefaces.app to request a refund using code: ${id}`,
+        html: `Please contact us via <strong>info@hidefaces.app</strong> to request a refund using code: <strong>${id}</strong>`,
         loading: false,
       });
     }
@@ -99,7 +101,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
       setModalData({
         error: false,
         title: 'Correct data on all steps',
-        text: 'Process payment',
+        html: 'Process payment',
         loading: true,
       });
       openModal();
@@ -112,20 +114,20 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
       const text = [];
       if (!file) {
         title.push('Step 1');
-        text.push('video');
+        text.push('<li>video</li>');
       }
       if (!email) {
         title.push('Step 2');
-        text.push('email');
+        text.push('<li>email</li>');
       }
       if (!token) {
         title.push('Step 3');
-        text.push('credit card');
+        text.push('<li>credit card</li>');
       }
       setModalData({
         error: true,
         title: `Error on: ${title.join(', ')}`,
-        text: `Please check your: ${text.join(', ')}`,
+        html: `Please check your: <ul><strong>${text.join('')}</strong></ul>`,
       });
       openModal();
     }
