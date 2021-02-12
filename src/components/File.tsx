@@ -7,14 +7,14 @@ const { text1, text2, text3 } = fileContent;
 const error = 'Please enter valid video file';
 const validVideoTypes = ['mp4', 'mkv'];
 
-const loadVideo = (file: File) =>
+const loadVideo = (file: File): Promise<HTMLVideoElement> =>
   new Promise((resolve, reject) => {
     try {
       const video = document.createElement('video');
       video.preload = 'metadata';
 
       video.onloadedmetadata = function () {
-        resolve(this);
+        resolve(this as HTMLVideoElement);
       };
 
       video.onerror = function () {
@@ -38,7 +38,7 @@ const File: React.FC<{
       const files = e.currentTarget.files;
       if (files && files.length > 0) {
         const file = files[0];
-        const video: any = await loadVideo(file);
+        const video: HTMLVideoElement = await loadVideo(file);
         const duration: number = video.duration ?? 100;
         const extension = file.name.replace(/^.*\./, '');
         const megabytes = Math.round(file.size / 1024 / 1024);

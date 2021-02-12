@@ -80,8 +80,8 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
           html: `The tracking code is: <strong>${id}</strong>. In less than 30 minutes, you will receive it via email: <strong>${email}</strong>.`,
           loading: false,
         });
-        setFile(null);
-        setEmail('');
+        //setFile(null);
+        //setEmail('');
       } else {
         throw Error();
       }
