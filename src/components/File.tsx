@@ -42,9 +42,9 @@ const File: React.FC<{
         const duration: number = video.duration ?? 100;
         const extension = file.name.replace(/^.*\./, '');
         const megabytes = Math.round(file.size / 1024 / 1024);
-        console.log(file.name, extension, megabytes);
+        console.log(file.name, extension, megabytes, duration);
 
-        if (validVideoTypes.includes(extension) && duration < 60 && megabytes < 200) {
+        if (validVideoTypes.includes(extension) && duration <= 61 && megabytes < 100) {
           setFile(file);
           setIsOkFile(true);
         } else {
