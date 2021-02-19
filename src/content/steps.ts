@@ -3,7 +3,7 @@ export const stepsContent = [
     title: 'Step 1',
     subtitle: 'Choose your video',
     description:
-      'You can upload a video up to 60 seconds long and it will be deleted at the end of the process.',
+      'You can upload a video up to 30 seconds long and it will be deleted at the end of the process.',
   },
   {
     title: 'Step 2',
