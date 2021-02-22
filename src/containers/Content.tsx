@@ -4,10 +4,10 @@ import ImageMosaic from '../components/ImageMosaic';
 import CtaButton from '../components/CtaButton';
 import { mainContent } from '../content/main';
 import Video from '../components/Video';
-import mainImage from '../svg/sides.svg';
 
 const { button, mainCta, secondaryCta } = mainContent;
 const mainVideo = '/videos/video.mp4';
+const mainImage = '/videos/frame.png';
 
 const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
   return (
@@ -23,7 +23,7 @@ const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
           <h2 className="my-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">{mainCta.text}</h2>
           <CtaButton text={button} onClick={scroll} />
         </header>
-        <div className="my-20 mx-2">
+        <div className="my-10 md:my-20 mx-2">
           <Video image={mainImage} video={mainVideo} />
         </div>
       </section>

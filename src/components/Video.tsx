@@ -9,15 +9,10 @@ const Video: React.FC<{ image: string; video: string }> = ({ image, video }) => 
   const videoParentRef = useRef<HTMLHeadingElement>(null);
   const [shouldUseImage, setShouldUseImage] = useState(true);
   useEffect(() => {
-    // check if user agent is safari and we have the ref to the container <div />
     if (isSafari() && videoParentRef.current) {
-      // obtain reference to the video element
       const player = videoParentRef.current.children[0] as HTMLVideoElement;
 
-      // if the reference to video player has been obtained
       if (player) {
-        // set the video attributes using javascript as per the
-        // webkit Policy
         player.controls = false;
         player.playsInline = true;
         player.muted = true;
@@ -32,7 +27,7 @@ const Video: React.FC<{ image: string; video: string }> = ({ image, video }) => 
           if (promise.then) {
             promise
               .then(() => {
-                return;
+                setShouldUseImage(false);
               })
               .catch(() => {
                 // if promise fails, hide the video and fallback to <img> tag
@@ -42,23 +37,29 @@ const Video: React.FC<{ image: string; video: string }> = ({ image, video }) => 
                 setShouldUseImage(true);
               });
           }
-        }, 0);
+        }, 2000);
       }
+    } else {
+      setTimeout(() => {
+        setShouldUseImage(false);
+      }, 3000);
     }
   }, []);
 
   const styles =
-    'mx-auto w-full md:w-4/5 transform -rotate-6 transition hover:scale-105 duration-700 ease-in-out hover:rotate-6';
+    'flex justify-center mx-auto w-full md:w-4/5 transform transition hover:scale-105 duration-700 ease-in-out hover:rotate-6 animate max-w-lg';
+  const border = 'bg-indigo-800 p-1 shadow-2xl';
 
   return shouldUseImage ? (
     <img
       src={image}
-      alt="Muted Video"
-      className={styles}
+      alt="Muted Video with hide faces"
+      className={`${styles} ${border}`}
       onClick={() => setShouldUseImage(false)}
     />
   ) : (
     <div
+      className={styles}
       ref={videoParentRef}
       dangerouslySetInnerHTML={{
         __html: `
@@ -68,9 +69,9 @@ const Video: React.FC<{ image: string; video: string }> = ({ image, video }) => 
           autoplay
           playsinline
           preload="metadata"
-          className="${styles}"
+          class="${border}"
         >
-        <source src="${video}" type="video/mp4" />
+        <source src="${video}" type="video/mp4"/>
         </video>`,
       }}
     />
