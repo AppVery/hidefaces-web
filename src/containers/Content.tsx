@@ -2,10 +2,12 @@ import React from 'react';
 import IconList from '../components/IconList';
 import ImageMosaic from '../components/ImageMosaic';
 import CtaButton from '../components/CtaButton';
-import mainImage from '../svg/sides.svg';
 import { mainContent } from '../content/main';
+import Video from '../components/Video';
+import mainImage from '../svg/sides.svg';
 
 const { button, mainCta, secondaryCta } = mainContent;
+const mainVideo = '/videos/video.mp4';
 
 const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
   return (
@@ -22,10 +24,7 @@ const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
           <CtaButton text={button} onClick={scroll} />
         </header>
         <div className="my-20 mx-2">
-          <img
-            className="mx-auto w-full md:w-4/5 transform -rotate-6 transition hover:scale-105 duration-700 ease-in-out hover:rotate-6"
-            src={mainImage}
-          />
+          <Video image={mainImage} video={mainVideo} />
         </div>
       </section>
       <section className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 lg:text-center">
