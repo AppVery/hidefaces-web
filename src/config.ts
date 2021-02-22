@@ -11,7 +11,8 @@ const prod = {
 };
 
 const config = {
-  MAX_ATTACHMENT_SIZE: 5000000,
+  MAX_SECONDS: 30,
+  MAX_MEGABYTES: 100,
   // Default to dev if not set
   ...(process.env.REACT_APP_STAGE === 'prod' ? prod : dev),
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { fileContent } from '../content/steps';
 import videoIcon from '../svg/video.svg';
 import addIcon from '../svg/add.svg';
+import config from '../config';
 
 const { text1, text2, text3 } = fileContent;
 const error = 'Please enter valid video file';
@@ -44,7 +45,11 @@ const File: React.FC<{
         const megabytes = Math.round(file.size / 1024 / 1024);
         console.log(file.name, extension, megabytes, duration);
 
-        if (validVideoTypes.includes(extension) && duration <= 31 && megabytes < 100) {
+        if (
+          validVideoTypes.includes(extension) &&
+          duration <= config.MAX_SECONDS + 1 &&
+          megabytes < config.MAX_MEGABYTES + 1
+        ) {
           setFile(file);
           setIsOkFile(true);
         } else {
