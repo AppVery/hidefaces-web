@@ -10,7 +10,10 @@ import config from '../config';
 import { Token } from '@stripe/stripe-js';
 import axios from 'axios';
 
-const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ startRef }) => {
+const Setps: React.FC<{
+  startRef: React.RefObject<HTMLInputElement>;
+  clickLegal: () => void;
+}> = ({ startRef, clickLegal }) => {
   const [isModal, showModal] = useState(false);
   const [windowOffset, setWindowOffset] = useState(0);
   const [file, setFile] = useState<File | null>(null);
@@ -146,7 +149,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
           <File setFile={setFile} />
         </Step>
         <Step content={stepsContent[1]} ready={!!email}>
-          <Email setEmail={setEmail} />
+          <Email setEmail={setEmail} clickLegal={clickLegal} />
         </Step>
         <Step content={stepsContent[2]}>
           <Stripe email={email} handlePay={handlePay} />

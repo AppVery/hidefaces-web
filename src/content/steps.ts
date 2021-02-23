@@ -33,7 +33,7 @@ export const fileContent = {
 
 export const emailContent = {
   note:
-    'We will not send you any emails other than the link to download the new video from our server. The email is only saved to complete the process. For more details, please check our privacy policy.',
+    'We will not send you any emails other than the link to download the new video from our server. The email is only saved to complete the process. For more details, please check our ',
 };
 
 export const stripeContent = {

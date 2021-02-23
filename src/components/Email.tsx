@@ -7,7 +7,8 @@ const emailPattern = new RegExp(
 
 const Email: React.FC<{
   setEmail: React.Dispatch<React.SetStateAction<string>>;
-}> = ({ setEmail }) => {
+  clickLegal: () => void;
+}> = ({ setEmail, clickLegal }) => {
   const [input, setInput] = useState('');
   const [error, setError] = useState('');
 
@@ -29,6 +30,11 @@ const Email: React.FC<{
     }
   };
 
+  const handlerLegal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    clickLegal();
+  };
+
   return (
     <div className="col-span-3 sm:col-span-2">
       <label className="mb-2 block text-ms text-red-400">{error}</label>
@@ -44,6 +50,9 @@ const Email: React.FC<{
       />
       <label htmlFor="email" className="mt-4 block text-xs text-gray-400">
         {emailContent.note}
+        <button onClick={handlerLegal} className="font-black underline">
+          privacy policy
+        </button>
       </label>
     </div>
   );
