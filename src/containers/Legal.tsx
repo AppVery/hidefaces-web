@@ -2,11 +2,11 @@ import React from 'react';
 import { legalContent } from '../content/legal';
 import icon from '../svg/info.svg';
 
-const { title, html } = legalContent;
-
 const Legal: React.FC<{
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ fn }) => {
+  const { title, html } = legalContent;
+
   const closeButton = () => {
     return (
       <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -49,9 +49,9 @@ const Legal: React.FC<{
                 <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
                   {title}
                 </h3>
-                <div className="mt-2 overflow-scroll h-screen">
+                <div className="mt-2 pr-4 overflow-y-scroll h-screen">
                   <div
-                    className="text-sm text-gray-500"
+                    className="legal text-sm text-gray-500"
                     dangerouslySetInnerHTML={{ __html: html }}
                   ></div>
                 </div>

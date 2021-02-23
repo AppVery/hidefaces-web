@@ -16,7 +16,7 @@ const Footer: React.FC<{
             <a href={`mailto:${email}`}>{email}</a>
           </p>
         </div>
-        <div className="w-2/4 flex justify-end items-center px-10">
+        <div className="w-2/4 flex justify-end items-center px-5">
           <button onClick={fn}>{linkText}</button>
         </div>
       </div>
