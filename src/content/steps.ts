@@ -13,7 +13,7 @@ export const stepsContent = [
   },
   {
     title: 'Step 3',
-    subtitle: 'Secure payment',
+    subtitle: 'Payment: choose amount',
     description:
       'Only after payment, the video will be sent to the server for processing with the help of artificial intelligence. Payment helps to maintain powerful servers that accomplish this complex task in an anonymous and automated manner.',
   },
@@ -37,7 +37,7 @@ export const emailContent = {
 };
 
 export const stripeContent = {
-  button: 'Pay 1.5€',
+  button: (number: string): string => `Pay ${number}€`,
 };
 
 export const waitContent = {

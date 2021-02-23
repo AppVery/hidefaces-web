@@ -39,9 +39,14 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
     showModal(false);
   };
 
-  const getTempUploadUrl = async (token: string) => {
+  const getTempUploadUrl = async (token: string, quantity: string) => {
     try {
-      const result = await axios.post(config.endpoint, { email, token, filename: file?.name });
+      const result = await axios.post(config.endpoint, {
+        email,
+        token,
+        filename: file?.name,
+        quantity,
+      });
       console.log('url', result);
       if (200 === result.status) {
         setModalData({
@@ -95,8 +100,8 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
     }
   };
 
-  const handlePay = async (token: Token | undefined) => {
-    console.log('handlePay', token);
+  const handlePay = async (token: Token | undefined, quantity: string) => {
+    console.log('handlePay', token, quantity);
     if (file && email && token) {
       setModalData({
         error: false,
@@ -105,7 +110,7 @@ const Setps: React.FC<{ startRef: React.RefObject<HTMLInputElement> }> = ({ star
         loading: true,
       });
       openModal();
-      const { id, url } = await getTempUploadUrl(token.id);
+      const { id, url } = await getTempUploadUrl(token.id, quantity);
       if (id && url) {
         await uploadVideo(id, url);
       }
