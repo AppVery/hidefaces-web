@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { fileContent } from '../content/steps';
 import videoIcon from '../svg/video.svg';
 import addIcon from '../svg/add.svg';
 import config from '../config';
 
 const { text1, text2, text3 } = fileContent;
+const dropText = 'Drop the files here ...';
 const error = 'Please enter valid video file';
 const validVideoTypes = ['mp4', 'mkv'];
 
@@ -31,12 +33,9 @@ const loadVideo = (file: File): Promise<HTMLVideoElement> =>
 const File: React.FC<{
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
 }> = ({ setFile }) => {
-  const [isError, setIsError] = useState<boolean>(false);
-  const [isOkFile, setIsOkFile] = useState<boolean>(false);
-  const onChange = async (e: React.FormEvent<HTMLInputElement>) => {
+  const onDrop = useCallback(async (files) => {
     try {
       setIsError(false);
-      const files = e.currentTarget.files;
       if (files && files.length > 0) {
         const file = files[0];
         const video: HTMLVideoElement = await loadVideo(file);
@@ -62,11 +61,21 @@ const File: React.FC<{
       setFile(null);
       setIsError(true);
     }
-  };
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isOkFile, setIsOkFile] = useState<boolean>(false);
+
   return (
-    <div className="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+    <div
+      {...getRootProps()}
+      className="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+    >
       <div className="space-y-1 text-center cursor-pointer">
-        {isError && <label className="mb-2 block text-ms text-red-400">{error}</label>}
+        {isDragActive && <label className="mb-2 block text-ms text-green-400">{dropText}</label>}
+        {!isDragActive && isError && (
+          <label className="mb-2 block text-ms text-red-400">{error}</label>
+        )}
         {!isOkFile ? (
           <span className="flex-shrink-0 flex items-center justify-center">
             <img className="h-10 w-10" src={addIcon} alt="Add video file" />
@@ -83,11 +92,11 @@ const File: React.FC<{
           >
             <span>{text1}</span>
             <input
+              {...getInputProps()}
               id="file-upload"
               name="file-upload"
               type="file"
               className="sr-only"
-              onChange={onChange}
             />
           </label>
           <p className="pl-1">{text2}</p>
