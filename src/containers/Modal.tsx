@@ -1,5 +1,7 @@
 import React from 'react';
 import loaderIcon from '../svg/loader.svg';
+import warnIcon from '../svg/warn.svg';
+import checkIcon from '../svg/check.svg';
 
 const Modal: React.FC<{
   data: { error: boolean; title: string; html: string; loading?: boolean };
@@ -25,27 +27,12 @@ const Modal: React.FC<{
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div
-                className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-${iconColor}-100 sm:mx-0 sm:h-10 sm:w-10`}
+                className={`mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-${iconColor}-100 sm:mx-0 sm:h-12 sm:w-12`}
               >
-                <svg
-                  className={`h-8 w-8 text-${iconColor}-600`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 16 16"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  {error ? (
-                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
-                  ) : (
-                    <path
-                      fillRule="evenodd"
-                      d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"
-                    />
-                  )}
-                </svg>
+                <span className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full p-1.5">
+                  <img className="h-12 w-12" src={error ? warnIcon : checkIcon} alt="Modal Icon" />
+                </span>
               </div>
-
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
                   {title}
