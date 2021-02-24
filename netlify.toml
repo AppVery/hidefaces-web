@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[[headers]]
+  # Define which paths this specific [[headers]] block will cover.
+  for = "/*"
+
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+
+    # Multi-key header rules are expressed with multi-line strings.
+    cache-control = '''
+      max-age=31557600,
+      no-cache,
+      no-store,
+      must-revalidate'''
