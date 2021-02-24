@@ -14,7 +14,7 @@ const config = {
   MAX_SECONDS: 30,
   MAX_MEGABYTES: 100,
   // Default to dev if not set
-  ...(process.env.REACT_APP_STAGE === 'prod' ? prod : dev),
+  ...(process.env.REACT_APP_STAGE === 'production' ? prod : dev),
 };
 
 export default config;
