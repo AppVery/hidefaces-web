@@ -23,7 +23,7 @@ const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
           <h2 className="my-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">{mainCta.text}</h2>
           <CtaButton text={button} onClick={scroll} />
         </header>
-        <div className="my-10 md:my-20 mx-2">
+        <div className="my-10 md:my-20 mx-2 cursor-pointer">
           <Video image={mainImage} video={mainVideo} />
         </div>
       </section>
