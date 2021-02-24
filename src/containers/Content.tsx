@@ -7,7 +7,7 @@ import Video from '../components/Video';
 
 const { button, mainCta, secondaryCta } = mainContent;
 const mainVideo = '/videos/video.mp4';
-const mainImage = '/videos/frame.png';
+const mainImage = '/videos/frame.jpg';
 
 const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
   return (
