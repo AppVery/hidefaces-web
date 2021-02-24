@@ -1,6 +1,6 @@
 {
-  "short_name": "HF",
-  "name": "HideFaces.app",
+  "short_name": "HideFaces",
+  "name": "HideFaces",
   "icons": [
     {
       "src": "logo/maskable_icon_x48.png",
@@ -36,6 +36,12 @@
       "src": "logo/maskable_icon_x512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "logo/maskable_icon.png",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "purpose": "maskable"
     }
   ],
   "start_url": ".",
