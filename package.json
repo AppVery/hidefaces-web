@@ -44,7 +44,6 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "deploy": "REACT_APP_STAGE=production craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.{ts,tsx}'"
