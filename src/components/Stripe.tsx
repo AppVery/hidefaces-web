@@ -40,7 +40,7 @@ const StripeCardElement: React.FC<{
     <>
       <div className="flex justify-between items-center mb-4">
         <input
-          className="slider rounded-lg appearance-none w-3/5"
+          className="slider rounded-lg appearance-none w-3/4"
           type="range"
           name="quantity"
           id="quantity"
@@ -50,14 +50,16 @@ const StripeCardElement: React.FC<{
           value={quantity}
           onChange={onChange}
         />
-        <CtaButton
-          text={stripeContent.button(quantity)}
-          onClick={(e: React.FormEvent<HTMLInputElement>) => getToken(e)}
-        />
+        <div className="text-white text-center text-lg font-semibold w-14 p-1 bg-indigo-600">
+          {stripeContent.amount(quantity)}
+        </div>
       </div>
       <CardElement className="card-field" onChange={(e) => setIsCardComplete(e.complete)} />
       <div className="flex justify-end">
-        <img className="rounded-lg shadow-lg" src={`/images/stripe.png`} alt="stripe-badge" />
+        <CtaButton
+          text={stripeContent.button}
+          onClick={(e: React.FormEvent<HTMLInputElement>) => getToken(e)}
+        />
       </div>
     </>
   );

@@ -13,9 +13,9 @@ export const stepsContent = [
   },
   {
     title: 'Step 3',
-    subtitle: 'Payment: choose amount',
+    subtitle: 'Payment: choose the price to pay',
     description:
-      'Only after payment, the video will be sent to the server for processing with the help of artificial intelligence. Payment helps to maintain powerful servers that accomplish this complex task in an anonymous and automated manner.',
+      'Yes, you can choose. Payment helps to maintain powerful servers that accomplish this complex task in an anonymous and automated manner. Only after payment, the video will be sent to the server for processing with the help of artificial intelligence.',
   },
   {
     title: 'Step 4',
@@ -37,7 +37,8 @@ export const emailContent = {
 };
 
 export const stripeContent = {
-  button: (number: string): string => `Pay ${number}€`,
+  button: 'Pay now',
+  amount: (number: string): string => `${number} €`,
 };
 
 export const waitContent = {
