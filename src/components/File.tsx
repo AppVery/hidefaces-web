@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { fileContent } from '../content/steps';
-import videoIcon from '../svg/video.svg';
+import checkIcon from '../svg/check.svg';
+import warnIcon from '../svg/warn.svg';
 import addIcon from '../svg/add.svg';
 import config from '../config';
 
@@ -60,6 +61,7 @@ const File: React.FC<{
     } catch (error) {
       setFile(null);
       setIsError(true);
+      setIsOkFile(false);
     }
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -78,11 +80,11 @@ const File: React.FC<{
         )}
         {!isOkFile ? (
           <span className="flex-shrink-0 flex items-center justify-center">
-            <img className="h-10 w-10" src={addIcon} alt="Add video file" />
+            <img className="h-10 w-10" src={!isError ? addIcon : warnIcon} alt="Add video file" />
           </span>
         ) : (
           <span className="flex-shrink-0 flex items-center justify-center">
-            <img className="h-16 w-16" src={videoIcon} alt="Video file ready" />
+            <img className="h-16 w-16" src={checkIcon} alt="Video file ready" />
           </span>
         )}
         <div className="flex text-sm text-gray-600">
