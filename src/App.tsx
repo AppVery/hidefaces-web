@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import Header from './containers/Header';
 import Content from './containers/Content';
 import Steps from './containers/Steps';
@@ -25,13 +25,6 @@ const App: React.FC = () => {
     window.scrollTo(0, windowOffset);
     showLegal(false);
   };
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://js.stripe.com/v3/';
-
-    document.body.appendChild(script);
-  }, []);
 
   return (
     <>
