@@ -1,12 +1,10 @@
 import React from 'react';
-import { legalContent } from '../content/legal';
+import { email, linkText } from '../content/legal';
 import logo from '../svg/logo.svg';
 
-const { email, linkText } = legalContent;
-
 const Footer: React.FC<{
-  fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}> = ({ fn }) => {
+  fn: () => void;
+}> = ({ fn: openLegalModal }) => {
   return (
     <footer>
       <div className="flex justify-around bg-indigo-800 text-white">
@@ -17,7 +15,7 @@ const Footer: React.FC<{
           </p>
         </div>
         <div className="w-2/4 flex justify-end items-center px-5">
-          <button onClick={fn}>{linkText}</button>
+          <button onClick={openLegalModal}>{linkText}</button>
         </div>
       </div>
     </footer>
