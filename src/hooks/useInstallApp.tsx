@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 
 type Response = [boolean, () => void];
 
+// eslint-disable-next-line
+let deferredPrompt: any;
+
 export const useInstallApp = (): Response => {
   const [isInstallable, setInstallable] = useState(false);
-  // eslint-disable-next-line
-  let deferredPrompt: any;
 
   useEffect(() => {
     // eslint-disable-next-line
