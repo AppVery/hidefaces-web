@@ -1,25 +1,23 @@
 import React from 'react';
+import Button from '../components/Button';
 import { legalContent } from '../content/legal';
 import icon from '../svg/info.svg';
+
+const { title, html } = legalContent;
+
+const CloseBar: React.FC<{
+  fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}> = ({ fn }) => {
+  return (
+    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+      <Button text="Close" fn={fn} />
+    </div>
+  );
+};
 
 const Legal: React.FC<{
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ fn }) => {
-  const { title, html } = legalContent;
-
-  const closeButton = () => {
-    return (
-      <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-        <button
-          type="button"
-          className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-          onClick={fn}
-        >
-          Close
-        </button>
-      </div>
-    );
-  };
   return (
     <aside className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -35,7 +33,7 @@ const Legal: React.FC<{
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
-          <div>{closeButton()}</div>
+          <CloseBar fn={fn} />
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div
@@ -58,7 +56,7 @@ const Legal: React.FC<{
               </div>
             </div>
           </div>
-          {closeButton()}
+          <CloseBar fn={fn} />
         </div>
       </div>
     </aside>
