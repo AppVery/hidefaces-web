@@ -63,12 +63,12 @@
   cursor: pointer;
 }
 
-.legal p,
-.legal h2 {
+.modal p,
+.modal h2 {
   margin: 1rem 0;
 }
 
-.legal h2 {
+.modal h2 {
   font-weight: 500;
 }
 

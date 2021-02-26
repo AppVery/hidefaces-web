@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useModal } from '../hooks/useModal';
-import Notices from './Notices';
+import Modal from './Modal';
 import Step from '../components/Step';
 import File from '../components/File';
 import Email from '../components/Email';
@@ -131,7 +131,7 @@ const Setps: React.FC<{
 
   return (
     <section ref={scrollRef} className="bg-gray-200 py-2 mt-10">
-      {isNoticesModal && <Notices data={modalData} fn={closeNoticesModal} />}
+      {isNoticesModal && <Modal data={modalData} fn={closeNoticesModal} />}
       <form>
         <Step content={stepsContent[0]} topBorder={false} ready={!!file}>
           <File setFile={setFile} />
