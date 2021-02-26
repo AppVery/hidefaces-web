@@ -9,7 +9,7 @@ import config from '../config';
 const { text1, text2, text3 } = fileContent;
 const dropText = 'Drop the files here ...';
 const error = 'Please enter valid video file';
-const validVideoTypes = ['mp4', 'mkv', '3gp', 'avi', 'flv', 'mov', 'mpeg', 'webm', 'wmv'];
+const validVideoTypes = ['mp4', 'mkv', 'mov', 'webm'];
 
 const loadVideo = (file: File): Promise<HTMLVideoElement> =>
   new Promise((resolve, reject) => {
