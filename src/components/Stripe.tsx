@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
+import { SubmitButton } from '../components/Button';
 import { loadStripe, Token } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import CtaButton from './CtaButton';
 import config from '../config';
 import { stripeContent } from '../content/steps';
 
@@ -56,9 +56,9 @@ const StripeCardElement: React.FC<{
       </div>
       <CardElement className="card-field" onChange={(e) => setIsCardComplete(e.complete)} />
       <div className="flex justify-end">
-        <CtaButton
+        <SubmitButton
           text={stripeContent.button}
-          onClick={(e: React.FormEvent<HTMLInputElement>) => getToken(e)}
+          fn={(e: React.FormEvent<HTMLInputElement>) => getToken(e)}
         />
       </div>
     </>
