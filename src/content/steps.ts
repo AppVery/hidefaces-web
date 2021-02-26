@@ -3,7 +3,7 @@ export const stepsContent = [
     title: 'Step 1',
     subtitle: 'Choose your video',
     description:
-      'You can upload a video up to 30 seconds long and it will be deleted at the end of the process.',
+      'Upload a file or drag and drop. You can upload a video up to 30 seconds and 100 megabytes long and it will be deleted at the end of the process.',
   },
   {
     title: 'Step 2',
@@ -26,8 +26,8 @@ export const stepsContent = [
 ];
 
 export const fileContent = {
-  text1: 'Upload a file',
-  text2: 'or drag and drop (max. size of 100MB)',
+  text1: '30 seconds of max. duration',
+  text2: '100MB of max. size',
   text3: 'Valid formats: mp4, mkv, mov, webm',
 };
 
