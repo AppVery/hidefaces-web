@@ -1,14 +1,16 @@
 import React from 'react';
+import Button from '../components/Button';
 import loaderIcon from '../svg/loader.svg';
 import warnIcon from '../svg/warn.svg';
 import checkIcon from '../svg/check.svg';
 
-const Modal: React.FC<{
+const Notices: React.FC<{
   data: { error: boolean; title: string; html: string; loading?: boolean };
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ data, fn }) => {
   const { error, title, html, loading } = data;
   const iconColor = error ? 'yellow' : 'green';
+
   return (
     <aside className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -54,13 +56,7 @@ const Modal: React.FC<{
                 </span>
               </div>
             ) : (
-              <button
-                type="button"
-                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                onClick={fn}
-              >
-                Close
-              </button>
+              <Button text="Close" fn={fn} />
             )}
           </div>
         </div>
@@ -69,4 +65,4 @@ const Modal: React.FC<{
   );
 };
 
-export default Modal;
+export default Notices;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useModal } from '../hooks/useModal';
-import Modal from './Modal';
+import Notices from './Notices';
 import Step from '../components/Step';
 import File from '../components/File';
 import Email from '../components/Email';
@@ -15,7 +15,7 @@ const Setps: React.FC<{
   scrollRef: React.RefObject<HTMLElement>;
   fn: () => void;
 }> = ({ scrollRef, fn: openLegalModal }) => {
-  const [isModal, openModal, closeModal] = useModal();
+  const [isNoticesModal, openNoticesModal, closeNoticesModal] = useModal();
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState<string>('');
   const [modalData, setModalData] = useState<{
@@ -100,7 +100,7 @@ const Setps: React.FC<{
         html: 'Process payment',
         loading: true,
       });
-      openModal();
+      openNoticesModal();
       const { id, url } = await getTempUploadUrl(token.id, quantity);
       if (id && url) {
         await uploadVideo(id, url);
@@ -125,13 +125,13 @@ const Setps: React.FC<{
         title: `Error on: ${title.join(', ')}`,
         html: `Please check your: <ul><strong>${text.join('')}</strong></ul>`,
       });
-      openModal();
+      openNoticesModal();
     }
   };
 
   return (
     <section ref={scrollRef} className="bg-gray-200 py-2 mt-10">
-      {isModal && <Modal data={modalData} fn={closeModal} />}
+      {isNoticesModal && <Notices data={modalData} fn={closeNoticesModal} />}
       <form>
         <Step content={stepsContent[0]} topBorder={false} ready={!!file}>
           <File setFile={setFile} />
