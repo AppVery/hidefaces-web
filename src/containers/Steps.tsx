@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useModal } from '../hooks/useModal';
 import Modal from './Modal';
 import Step from '../components/Step';
 import File from '../components/File';
@@ -14,8 +15,7 @@ const Setps: React.FC<{
   startRef: React.RefObject<HTMLInputElement>;
   clickLegal: () => void;
 }> = ({ startRef, clickLegal }) => {
-  const [isModal, showModal] = useState(false);
-  const [windowOffset, setWindowOffset] = useState(0);
+  const [isModal, openModal, closeModal] = useModal();
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState<string>('');
   const [modalData, setModalData] = useState<{
@@ -29,18 +29,6 @@ const Setps: React.FC<{
     html: 'Check step error',
     loading: false,
   });
-
-  const openModal = () => {
-    const offset = window.scrollY;
-    setWindowOffset(offset);
-    document.body.setAttribute('style', `position: fixed; top: -${offset}px; left:0: right; 0;`);
-    showModal(true);
-  };
-  const closeModal = () => {
-    document.body.setAttribute('style', '');
-    window.scrollTo(0, windowOffset);
-    showModal(false);
-  };
 
   const getTempUploadUrl = async (token: string, quantity: string) => {
     try {
