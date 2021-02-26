@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-export const useModal = (): [boolean, () => void, () => void] => {
+type Response = [boolean, () => void, () => void];
+
+export const useModal = (): Response => {
   const [isModal, showModal] = useState(false);
   const [windowOffset, setWindowOffset] = useState(0);
 

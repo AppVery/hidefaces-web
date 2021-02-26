@@ -12,9 +12,9 @@ import { Token } from '@stripe/stripe-js';
 import axios from 'axios';
 
 const Setps: React.FC<{
-  startRef: React.RefObject<HTMLInputElement>;
-  clickLegal: () => void;
-}> = ({ startRef, clickLegal }) => {
+  scrollRef: React.RefObject<HTMLElement>;
+  fn: () => void;
+}> = ({ scrollRef, fn: openLegalModal }) => {
   const [isModal, openModal, closeModal] = useModal();
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState<string>('');
@@ -130,14 +130,14 @@ const Setps: React.FC<{
   };
 
   return (
-    <section ref={startRef} className="bg-gray-200 py-2 mt-10">
+    <section ref={scrollRef} className="bg-gray-200 py-2 mt-10">
       {isModal && <Modal data={modalData} fn={closeModal} />}
       <form>
         <Step content={stepsContent[0]} topBorder={false} ready={!!file}>
           <File setFile={setFile} />
         </Step>
         <Step content={stepsContent[1]} ready={!!email}>
-          <Email setEmail={setEmail} clickLegal={clickLegal} />
+          <Email setEmail={setEmail} clickLegal={openLegalModal} />
         </Step>
         <Step content={stepsContent[2]}>
           <Stripe email={email} handlePay={handlePay} />

@@ -9,7 +9,7 @@ const { button, mainCta, secondaryCta } = mainContent;
 const mainVideo = '/videos/video.mp4';
 const mainImage = '/videos/frame.jpg';
 
-const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
+const Content: React.FC<{ scrollTo: () => void }> = ({ scrollTo }) => {
   return (
     <>
       <section className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 lg:text-center">
@@ -21,7 +21,7 @@ const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
             {mainCta.subtitle}
           </p>
           <h2 className="my-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">{mainCta.text}</h2>
-          <CtaButton text={button} onClick={scroll} />
+          <CtaButton text={button} onClick={scrollTo} />
         </header>
         <div className="my-10 md:my-20 mx-2 cursor-pointer">
           <Video image={mainImage} video={mainVideo} />
@@ -40,7 +40,7 @@ const Content: React.FC<{ scroll: () => void }> = ({ scroll }) => {
               <h3 className="my-4 text-lg leading-6 text-gray-500 dark:text-gray-300">
                 {secondaryCta.text}
               </h3>
-              <CtaButton text={button} onClick={scroll} />
+              <CtaButton text={button} onClick={scrollTo} />
             </header>
             <IconList />
           </div>
