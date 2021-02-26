@@ -1,3 +1,5 @@
+export const brand = 'HideFaces';
+
 export const mainContent = {
   button: 'Get started',
   mainCta: {

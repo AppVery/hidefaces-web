@@ -1,17 +1,12 @@
-const website = 'hidefaces.app';
-const email = 'info@hidefaces.app';
-const owner = 'AppVery - Pablo Cianes';
-const address = 'Plaza República Saharaui, 2 – Berriozar (Navarra - Spain)';
-const fullOwner = `${owner} · ${address} · email: <strong>${email}</strong>`;
+export const website = 'hidefaces.app';
+export const email = 'info@hidefaces.app';
+export const owner = 'AppVery - Pablo Cianes';
+export const address = 'Plaza República Saharaui, 2 – Berriozar (Navarra - Spain)';
+export const fullOwner = `${owner} · ${address} · email: <strong>${email}</strong>`;
+export const linkText = 'Legal';
 
 export const legalContent = {
-  website,
-  fullOwner,
   title: 'Legal Terms, Privacy & Cookies',
-  email,
-  owner,
-  address,
-  linkText: 'Legal',
   /*eslint-disable no-irregular-whitespace*/
   html: `<p>By accessing and using this service, you accept and agree to be bound by the terms and constraints of this agreement. In addition, when using these specific services, you will be subject to any rules or corresponding user guides that have been published for that service. Any participation in this service will constitute acceptance of this agreement. If you do not agree with the above regulations, please do not use. According to Article 10 of the "Information Society and E-Commerce Services Law" (hereinafter referred to as LSSI), in a mandatory, permanent, simple, direct and free way.</p>
   
