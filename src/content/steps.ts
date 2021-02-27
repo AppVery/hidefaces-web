@@ -29,11 +29,16 @@ export const fileContent = {
   text1: '30 seconds of max. duration',
   text2: '100MB of max. size',
   text3: 'Valid formats: mp4, mkv, mov, webm',
+  dropText: 'Drop the files here ...',
+  error: 'Please enter valid video file',
+  validVideoTypes: ['mp4', 'mkv', 'mov', 'webm'],
 };
 
 export const emailContent = {
+  error: 'Please enter valid email address',
   note:
     'We will not send you any emails other than the link to download the new video from our server. The email is only saved to complete the process. For more details, please check our ',
+  link: 'privacy policy',
 };
 
 export const stripeContent = {

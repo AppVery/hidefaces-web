@@ -32,7 +32,7 @@ const StripeCardElement: React.FC<{
     }
   };
 
-  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeSlider = (e: React.FormEvent<HTMLInputElement>) => {
     setQuantity(e.currentTarget.value);
   };
 
@@ -48,7 +48,7 @@ const StripeCardElement: React.FC<{
           max="5"
           step="0.1"
           value={quantity}
-          onChange={onChange}
+          onChange={onChangeSlider}
         />
         <div className="text-white text-center text-lg font-semibold w-14 p-1 bg-indigo-600">
           {stripeContent.amount(quantity)}

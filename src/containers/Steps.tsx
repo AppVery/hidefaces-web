@@ -137,7 +137,7 @@ const Setps: React.FC<{
           <File setFile={setFile} />
         </Step>
         <Step content={stepsContent[1]} ready={!!email}>
-          <Email setEmail={setEmail} clickLegal={openLegalModal} />
+          <Email setEmail={setEmail} fn={openLegalModal} />
         </Step>
         <Step content={stepsContent[2]}>
           <Stripe email={email} handlePay={handlePay} />
