@@ -9,6 +9,11 @@ const CloseBar: React.FC<{
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
   loading?: boolean;
 }> = ({ fn, loading = false }) => {
+  const closeModal = (event: React.MouseEvent<HTMLButtonElement>) => {
+    window.history.replaceState(null, '', '/');
+    fn(event);
+  };
+
   return (
     <div className="bg-gray-50 px-4 py-3 sm:px-6 flex flex-row-reverse">
       {loading ? (
@@ -18,7 +23,7 @@ const CloseBar: React.FC<{
           </span>
         </div>
       ) : (
-        <Button text="Close" fn={fn} />
+        <Button text="Close" fn={closeModal} />
       )}
     </div>
   );
