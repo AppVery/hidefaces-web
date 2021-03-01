@@ -5,6 +5,13 @@ import loaderIcon from '../svg/loader.svg';
 import warnIcon from '../svg/warn.svg';
 import checkIcon from '../svg/check.svg';
 
+export type ModalData = {
+  title: string;
+  html: string;
+  error?: boolean;
+  loading?: boolean;
+};
+
 const CloseBar: React.FC<{
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
   loading?: boolean;
@@ -30,7 +37,7 @@ const CloseBar: React.FC<{
 };
 
 const Modal: React.FC<{
-  data: { title: string; html: string; error?: boolean; loading?: boolean };
+  data: ModalData;
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
   isLongText?: boolean;
 }> = ({ data, fn, isLongText = false }) => {

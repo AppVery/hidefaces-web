@@ -1,14 +1,9 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
+import { stepsReducer, Types } from './stepsReducer';
 import config from '../config';
 import { Token } from '@stripe/stripe-js';
 import axios from 'axios';
-
-type ModalData = {
-  error: boolean;
-  title: string;
-  html: string;
-  loading?: boolean;
-};
+import { ModalData } from '../containers/Modal';
 
 type Data = {
   modalData: ModalData;
@@ -27,10 +22,10 @@ type Response = [Data, Handlers];
 export const useSteps = (openNoticesModal: () => void): Response => {
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState<string>('');
-  const [modalData, setModalData] = useState<ModalData>({
-    error: true,
+  const [modalData, dispatchModalData] = useReducer(stepsReducer, {
     title: 'Error',
     html: 'Check step error',
+    error: true,
     loading: false,
   });
 
@@ -44,12 +39,7 @@ export const useSteps = (openNoticesModal: () => void): Response => {
       });
       console.log('url', result);
       if (200 === result.status) {
-        setModalData({
-          error: false,
-          title: 'Satisfactory payment',
-          html: 'Start video upload',
-          loading: true,
-        });
+        dispatchModalData({ type: Types.okPayment });
         const { id, url } = result.data.response;
 
         return { id, url };
@@ -57,12 +47,7 @@ export const useSteps = (openNoticesModal: () => void): Response => {
         throw Error();
       }
     } catch (error) {
-      setModalData({
-        error: true,
-        title: 'Error with the payment',
-        html: `Please try again in a few minutes or contact <strong>info@hidefaces.app</strong>`,
-        loading: false,
-      });
+      dispatchModalData({ type: Types.errorPayment });
       return { id: null, url: null };
     }
   };
@@ -74,76 +59,52 @@ export const useSteps = (openNoticesModal: () => void): Response => {
 
       console.log('axios response', response);
       if (200 === response.status) {
-        setModalData({
-          error: false,
-          title: 'Start video processing',
-          html: `The tracking code is: <strong>${id}</strong>. In less than 30 minutes, you will receive it via email: <strong>${email}</strong>.`,
-          loading: false,
-        });
+        dispatchModalData({ type: Types.okFinal, id, email });
         //setFile(null);
         //setEmail('');
       } else {
         throw Error();
       }
     } catch (error) {
-      setModalData({
-        error: true,
-        title: 'Video error',
-        html: `Please contact us via <strong>info@hidefaces.app</strong> to request a refund using code: <strong>${id}</strong>`,
-        loading: false,
-      });
+      dispatchModalData({ type: Types.errorFinal, id });
     }
   };
 
   const handlePay = async (token: Token | undefined, quantity: number) => {
     console.log('handlePay', token, quantity);
     if (file && email && token) {
-      setModalData({
-        error: false,
-        title: 'Correct data on all steps',
-        html: 'Process payment',
-        loading: true,
-      });
+      dispatchModalData({ type: Types.okData });
       openNoticesModal();
       const { id, url } = await getTempUploadUrl(token.id, quantity);
       if (id && url) {
         await uploadVideo(id, url);
       }
     } else {
-      const title = [];
-      const text = [];
+      const stepsWithError = [];
       if (!file) {
-        title.push('Step 1');
-        text.push('<li>video</li>');
+        stepsWithError.push(1);
       }
       if (!email) {
-        title.push('Step 2');
-        text.push('<li>email</li>');
+        stepsWithError.push(2);
       }
       if (!token) {
-        title.push('Step 3');
-        text.push('<li>credit card</li>');
+        stepsWithError.push(3);
       }
-      setModalData({
-        error: true,
-        title: `Error on: ${title.join(', ')}`,
-        html: `Please check your: <ul><strong>${text.join('')}</strong></ul>`,
-      });
+      dispatchModalData({ type: Types.errorData, stepsWithError });
       openNoticesModal();
     }
   };
 
-  const data = {
-    modalData,
-    email,
-    file,
-  };
-
-  const handlers = {
-    setFile,
-    setEmail,
-    handlePay,
-  };
-
-  return [data, handlers];
+  return [
+    {
+      modalData,
+      email,
+      file,
+    },
+    {
+      setFile,
+      setEmail,
+      handlePay,
+    },
+  ];
 };
