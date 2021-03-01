@@ -11,6 +11,10 @@ const prod = {
 };
 
 const config = {
+  //price in cents
+  MIN_PRICE: 100,
+  PRICE: 200,
+  MAX_PRICE: 500,
   MAX_SECONDS: 30,
   MAX_MEGABYTES: 100,
   // Default to dev if not set

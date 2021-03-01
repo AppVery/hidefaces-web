@@ -11,7 +11,7 @@ import config from '../config';
 import { Token } from '@stripe/stripe-js';
 import axios from 'axios';
 
-const Setps: React.FC<{
+const Steps: React.FC<{
   scrollRef: React.RefObject<HTMLElement>;
   fn: () => void;
 }> = ({ scrollRef, fn: openLegalModal }) => {
@@ -30,7 +30,7 @@ const Setps: React.FC<{
     loading: false,
   });
 
-  const getTempUploadUrl = async (token: string, quantity: string) => {
+  const getTempUploadUrl = async (token: string, quantity: number) => {
     try {
       const result = await axios.post(config.endpoint, {
         email,
@@ -91,7 +91,7 @@ const Setps: React.FC<{
     }
   };
 
-  const handlePay = async (token: Token | undefined, quantity: string) => {
+  const handlePay = async (token: Token | undefined, quantity: number) => {
     console.log('handlePay', token, quantity);
     if (file && email && token) {
       setModalData({
@@ -155,4 +155,4 @@ const Setps: React.FC<{
   );
 };
 
-export default Setps;
+export default Steps;

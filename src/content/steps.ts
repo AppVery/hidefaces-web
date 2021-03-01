@@ -43,7 +43,7 @@ export const emailContent = {
 
 export const stripeContent = {
   button: 'Pay now',
-  amount: (number: string): string => `${number} €`,
+  amount: (number: number): string => `${(number / 100).toString()} €`,
 };
 
 export const waitContent = {

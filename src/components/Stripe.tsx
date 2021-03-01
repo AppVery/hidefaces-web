@@ -7,12 +7,12 @@ import { stripeContent } from '../content/steps';
 
 const StripeCardElement: React.FC<{
   email: string;
-  handlePay: (token: Token | undefined, quantity: string) => void;
+  handlePay: (token: Token | undefined, quantity: number) => void;
 }> = ({ email, handlePay }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isCardComplete, setIsCardComplete] = useState(false);
-  const [quantity, setQuantity] = useState('2');
+  const [quantity, setQuantity] = useState(config.PRICE);
 
   const getToken = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -33,7 +33,8 @@ const StripeCardElement: React.FC<{
   };
 
   const onChangeSlider = (e: React.FormEvent<HTMLInputElement>) => {
-    setQuantity(e.currentTarget.value);
+    const value = e.currentTarget.value;
+    setQuantity(parseFloat(value));
   };
 
   return (
@@ -44,9 +45,9 @@ const StripeCardElement: React.FC<{
           type="range"
           name="quantity"
           id="quantity"
-          min="1.5"
-          max="5"
-          step="0.1"
+          min={config.MIN_PRICE}
+          max={config.MAX_PRICE}
+          step="20"
           value={quantity}
           onChange={onChangeSlider}
         />
@@ -67,7 +68,7 @@ const StripeCardElement: React.FC<{
 
 const Stripe: React.FC<{
   email: string;
-  handlePay: (token: Token | undefined, quantity: string) => void;
+  handlePay: (token: Token | undefined, quantity: number) => void;
 }> = ({ email, handlePay }) => {
   const stripePromise = useMemo(() => loadStripe(config.STRIPE_KEY), [config.STRIPE_KEY]);
   return (
