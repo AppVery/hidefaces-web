@@ -20,6 +20,7 @@ const StripeCardElement: React.FC<{
   useEffect(() => {
     if (cardElement && clearCard) {
       cardElement.clear();
+      setQuantity(config.PRICE);
     }
   }, [clearCard]);
 
