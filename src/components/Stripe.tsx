@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { SubmitButton } from '../components/Button';
 import { loadStripe, Token } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
@@ -8,27 +8,38 @@ import { stripeContent } from '../content/steps';
 const StripeCardElement: React.FC<{
   email: string;
   handlePay: (token: Token | undefined, quantity: number) => void;
-}> = ({ email, handlePay }) => {
+  clearCard: boolean;
+}> = ({ email, handlePay, clearCard }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isCardComplete, setIsCardComplete] = useState(false);
   const [quantity, setQuantity] = useState(config.PRICE);
 
-  const getToken = async (e: React.FormEvent<HTMLInputElement>) => {
-    e.preventDefault();
+  const cardElement = elements && elements.getElement(CardElement);
 
-    if (!elements || !stripe) {
-      return;
+  useEffect(() => {
+    if (cardElement && clearCard) {
+      cardElement.clear();
     }
+  }, [clearCard]);
 
-    const cardElement = elements.getElement(CardElement);
+  const getToken = async (e: React.FormEvent<HTMLInputElement>) => {
+    try {
+      e.preventDefault();
 
-    if (cardElement && isCardComplete) {
-      const data = { name: email };
-      const { token } = await stripe.createToken(cardElement, data);
-      handlePay(token, quantity);
-    } else {
-      handlePay(undefined, quantity);
+      if (!elements || !stripe) {
+        throw Error();
+      }
+
+      if (cardElement && isCardComplete) {
+        const data = { name: email };
+        const { token } = await stripe.createToken(cardElement, data);
+        handlePay(token, quantity);
+      } else {
+        throw Error();
+      }
+    } catch (error) {
+      handlePay(undefined, 0);
     }
   };
 
@@ -69,11 +80,12 @@ const StripeCardElement: React.FC<{
 const Stripe: React.FC<{
   email: string;
   handlePay: (token: Token | undefined, quantity: number) => void;
-}> = ({ email, handlePay }) => {
+  clearCard: boolean;
+}> = ({ email, handlePay, clearCard }) => {
   const stripePromise = useMemo(() => loadStripe(config.STRIPE_KEY), [config.STRIPE_KEY]);
   return (
     <Elements stripe={stripePromise}>
-      <StripeCardElement email={email} handlePay={handlePay} />
+      <StripeCardElement email={email} handlePay={handlePay} clearCard={clearCard} />
     </Elements>
   );
 };

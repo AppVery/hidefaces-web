@@ -9,6 +9,7 @@ type Data = {
   modalData: ModalData;
   email: string;
   file: File | null;
+  final: boolean;
 };
 
 type Handlers = {
@@ -22,6 +23,7 @@ type Response = [Data, Handlers];
 export const useSteps = (openNoticesModal: () => void): Response => {
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState<string>('');
+  const [final, setFinal] = useState<boolean>(false);
   const [modalData, dispatchModalData] = useReducer(stepsReducer, {
     title: 'Error',
     html: 'Check step error',
@@ -90,6 +92,15 @@ export const useSteps = (openNoticesModal: () => void): Response => {
     }
   };
 
+  const resetData = (): void => {
+    setFile(null);
+    setEmail('');
+    setFinal(true);
+    setTimeout(() => {
+      setFinal(false);
+    }, 900000); //15 minutes max. to wait
+  };
+
   const handlePay = async (token: Token | undefined, quantity: number) => {
     const isOkData = checkData(token);
     openNoticesModal();
@@ -98,7 +109,10 @@ export const useSteps = (openNoticesModal: () => void): Response => {
       const { id, url } = await getTempUploadUrl(token.id, quantity);
       if (id && url) {
         await uploadVideo(id, url);
+        resetData();
       }
+    } else {
+      setFinal(false);
     }
   };
 
@@ -107,6 +121,7 @@ export const useSteps = (openNoticesModal: () => void): Response => {
       modalData,
       email,
       file,
+      final,
     },
     {
       setFile,

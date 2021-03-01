@@ -9,8 +9,9 @@ import addIcon from '../svg/add.svg';
 const { text1, text2, text3, dropText, error } = fileContent;
 
 const File: React.FC<{
+  file: File | null;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
-}> = ({ setFile }) => {
+}> = ({ file, setFile }) => {
   const [isOkVideo, isError, checkVideo] = useCheckVideo(setFile);
   const onDrop = useCallback(async (files) => {
     checkVideo(files);
@@ -28,7 +29,7 @@ const File: React.FC<{
         </label>
 
         <span className="flex-shrink-0 flex items-center justify-center">
-          {isOkVideo ? (
+          {file && isOkVideo ? (
             <img className="h-16 w-16" src={checkIcon} alt="Video file ready" />
           ) : (
             <img className="h-10 w-10" src={isError ? warnIcon : addIcon} alt="Add video file" />

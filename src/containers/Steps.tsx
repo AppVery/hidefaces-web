@@ -15,7 +15,7 @@ const Steps: React.FC<{
 }> = ({ scrollRef, fn: openLegalModal }) => {
   const [isNoticesModal, openNoticesModal, closeNoticesModal] = useModal();
   const [data, handlers] = useSteps(openNoticesModal);
-  const { modalData, file, email } = data;
+  const { modalData, file, email, final } = data;
   const { setFile, setEmail, handlePay } = handlers;
 
   return (
@@ -23,17 +23,21 @@ const Steps: React.FC<{
       {isNoticesModal && <Modal data={modalData} fn={closeNoticesModal} />}
       <form>
         <Step content={stepsContent[0]} topBorder={false} ready={!!file}>
-          <File setFile={setFile} />
+          <File file={file} setFile={setFile} />
         </Step>
         <Step content={stepsContent[1]} ready={!!email}>
-          <Email setEmail={setEmail} fn={openLegalModal} />
+          <Email email={email} setEmail={setEmail} fn={openLegalModal} />
         </Step>
         <Step content={stepsContent[2]}>
-          <Stripe email={email} handlePay={handlePay} />
+          <Stripe email={email} handlePay={handlePay} clearCard={final} />
         </Step>
         <Step content={stepsContent[3]}>
           <div className="flex items-center">
-            <img className="h-12 w-12" src={timerIcon} alt="Timer Icon" />
+            <img
+              className={`h-12 w-12 ${final ? 'loading' : ''}`}
+              src={timerIcon}
+              alt="Timer Icon"
+            />
             <span className="ml-4 text-base leading-6 font-medium text-gray-500">
               {waitContent.text}
             </span>

@@ -26,10 +26,10 @@ export const stepsContent = [
 ];
 
 export const fileContent = {
-  text1: '30 seconds of max. duration',
-  text2: '100MB of max. size',
+  text1: 'Max. duration: 30 seconds',
+  text2: 'Max. size: 100MB',
   text3: 'Valid formats: mp4, mkv, mov, webm',
-  dropText: 'Drop the files here ...',
+  dropText: 'Drop the files here...',
   error: 'Please enter valid video file',
   validVideoTypes: ['mp4', 'mkv', 'mov', 'webm'],
 };
