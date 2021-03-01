@@ -29,69 +29,76 @@ export const useSteps = (openNoticesModal: () => void): Response => {
     loading: false,
   });
 
-  const getTempUploadUrl = async (token: string, quantity: number) => {
+  const getTempUploadUrl = async (
+    token: string,
+    quantity: number,
+  ): Promise<{ id: string | null; url: string | null }> => {
     try {
-      const result = await axios.post(config.endpoint, {
+      const response = await axios.post(config.endpoint, {
         email,
         token,
         filename: file?.name,
         quantity,
       });
-      console.log('url', result);
-      if (200 === result.status) {
-        dispatchModalData({ type: Types.okPayment });
-        const { id, url } = result.data.response;
 
-        return { id, url };
-      } else {
+      if (200 !== response.status) {
         throw Error();
       }
+
+      dispatchModalData({ type: Types.okPayment });
+      const { id, url } = response.data.response;
+      return { id, url };
     } catch (error) {
       dispatchModalData({ type: Types.errorPayment });
       return { id: null, url: null };
     }
   };
 
-  const uploadVideo = async (id: string, tempUploadUrl: string) => {
-    console.log('uploading...', id, tempUploadUrl);
+  const uploadVideo = async (id: string, tempUploadUrl: string): Promise<void> => {
     try {
       const response = await axios.put(tempUploadUrl, file);
 
-      console.log('axios response', response);
-      if (200 === response.status) {
-        dispatchModalData({ type: Types.okFinal, id, email });
-        //setFile(null);
-        //setEmail('');
-      } else {
+      if (200 !== response.status) {
         throw Error();
       }
+
+      dispatchModalData({ type: Types.okFinal, id, email });
     } catch (error) {
       dispatchModalData({ type: Types.errorFinal, id });
     }
   };
 
-  const handlePay = async (token: Token | undefined, quantity: number) => {
-    console.log('handlePay', token, quantity);
+  const checkData = (token: Token | undefined): boolean => {
+    const stepsWithError = [];
+
+    if (!file) {
+      stepsWithError.push(1);
+    }
+    if (!email) {
+      stepsWithError.push(2);
+    }
+    if (!token) {
+      stepsWithError.push(3);
+    }
+
     if (file && email && token) {
       dispatchModalData({ type: Types.okData });
-      openNoticesModal();
+      return true;
+    } else {
+      dispatchModalData({ type: Types.errorData, stepsWithError });
+      return false;
+    }
+  };
+
+  const handlePay = async (token: Token | undefined, quantity: number) => {
+    const isOkData = checkData(token);
+    openNoticesModal();
+
+    if (token && isOkData) {
       const { id, url } = await getTempUploadUrl(token.id, quantity);
       if (id && url) {
         await uploadVideo(id, url);
       }
-    } else {
-      const stepsWithError = [];
-      if (!file) {
-        stepsWithError.push(1);
-      }
-      if (!email) {
-        stepsWithError.push(2);
-      }
-      if (!token) {
-        stepsWithError.push(3);
-      }
-      dispatchModalData({ type: Types.errorData, stepsWithError });
-      openNoticesModal();
     }
   };
 
