@@ -1,12 +1,20 @@
+const generalId = 'dxbefy9wv1';
+const devId = 'g9wezw15fc';
+const prodId = 'rx31c7brnb';
+
+const isDev = () => process.env.REACT_APP_STAGE === 'dev';
+const isProd = () => process.env.REACT_APP_STAGE === 'prod';
+
+const getAPIendpoint = (id: string, stage: string) =>
+  `'https://${id}.execute-api.eu-west-1.amazonaws.com/${stage}/payment'`;
+
 const dev = {
-  //endpoint: 'https://yf2qg97vc7.execute-api.eu-west-1.amazonaws.com/dev/payment',
-  endpoint: 'https://dxbefy9wv1.execute-api.eu-west-1.amazonaws.com/dev/payment',
+  endpoint: getAPIendpoint(isDev() ? devId : generalId, 'dev'),
   STRIPE_KEY: 'pk_test_dWFGbfBf1OkmSoNS8QAu1R7a00HSKb10om',
 };
 
 const prod = {
-  //endpoint: 'https://yf2qg97vc7.execute-api.eu-west-1.amazonaws.com/prod/payment',
-  endpoint: 'https://dxbefy9wv1.execute-api.eu-west-1.amazonaws.com/prod/payment',
+  endpoint: getAPIendpoint(prodId, 'prod'),
   STRIPE_KEY: 'pk_live_QzLlwFKdgLUAS3IzSOI1x9O800kdiQ1yrJ',
 };
 
@@ -16,9 +24,9 @@ const config = {
   PRICE: 200,
   MAX_PRICE: 500,
   MAX_SECONDS: 30,
-  MAX_MEGABYTES: 100,
+  MAX_MEGABYTES: 50,
   // Default to dev if not set
-  ...(process.env.REACT_APP_STAGE === 'prod' ? prod : dev),
+  ...(isProd() ? prod : dev),
 };
 
 export default config;
