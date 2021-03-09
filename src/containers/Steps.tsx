@@ -5,7 +5,7 @@ import Modal from './Modal';
 import Step from '../components/Step';
 import File from '../components/File';
 import Email from '../components/Email';
-import Stripe from '../components/Stripe';
+import Payment from '../components/Payment';
 import timerIcon from '../svg/timer.svg';
 import { stepsContent, waitContent } from '../content/steps';
 
@@ -15,7 +15,7 @@ const Steps: React.FC<{
 }> = ({ scrollRef, fn: openLegalModal }) => {
   const [isNoticesModal, openNoticesModal, closeNoticesModal] = useModal();
   const [data, handlers] = useSteps(openNoticesModal);
-  const { modalData, file, email, final } = data;
+  const { modalData, file, email } = data;
   const { setFile, setEmail, handlePay } = handlers;
 
   return (
@@ -29,15 +29,11 @@ const Steps: React.FC<{
           <Email email={email} setEmail={setEmail} fn={openLegalModal} />
         </Step>
         <Step content={stepsContent[2]}>
-          <Stripe email={email} handlePay={handlePay} clearCard={final} />
+          <Payment handlePay={handlePay} />
         </Step>
         <Step content={stepsContent[3]}>
           <div className="flex items-center">
-            <img
-              className={`h-12 w-12 ${final ? 'loading' : ''}`}
-              src={timerIcon}
-              alt="Timer Icon"
-            />
+            <img className="h-12 w-12" src={timerIcon} alt="Timer Icon" />
             <span className="ml-4 text-base leading-6 font-medium text-gray-500">
               {waitContent.text}
             </span>

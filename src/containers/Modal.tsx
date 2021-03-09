@@ -10,6 +10,7 @@ export type ModalData = {
   html: string;
   error?: boolean;
   loading?: boolean;
+  close?: boolean;
 };
 
 const CloseBar: React.FC<{
@@ -41,7 +42,7 @@ const Modal: React.FC<{
   fn: (event: React.MouseEvent<HTMLButtonElement>) => void;
   isLongText?: boolean;
 }> = ({ data, fn, isLongText = false }) => {
-  const { error, title, html, loading } = data;
+  const { error, title, html, loading, close } = data;
   const icon = isLongText ? infoIcon : error ? warnIcon : checkIcon;
 
   return (
@@ -86,7 +87,7 @@ const Modal: React.FC<{
               </div>
             </div>
           </div>
-          <CloseBar fn={fn} loading={loading} />
+          {(close || loading) && <CloseBar fn={fn} loading={loading} />}
         </div>
       </div>
     </aside>

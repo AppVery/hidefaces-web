@@ -3,8 +3,7 @@ import { ModalData } from '../containers/Modal';
 export enum Types {
   okData = 'OK_DATA',
   errorData = 'ERROR_DATA',
-  okPayment = 'OK_PAYMENT',
-  errorPayment = 'ERROR_PAYMENT',
+  okSession = 'OK_STRIPE_SESSION',
   okFinal = 'OK_FINAL',
   errorFinal = 'ERROR_FINAL',
 }
@@ -12,10 +11,9 @@ export enum Types {
 type Action =
   | { type: Types.okData }
   | { type: Types.errorData; stepsWithError: number[] }
-  | { type: Types.okPayment }
-  | { type: Types.errorPayment }
+  | { type: Types.okSession }
   | { type: Types.okFinal; id: string; email: string }
-  | { type: Types.errorFinal; id: string };
+  | { type: Types.errorFinal };
 
 const getStepErrors = (steps: number[]): { title: string; description: string } => {
   const stepsDescriptions = ['video', 'email', 'credit card'];
@@ -34,7 +32,7 @@ export const stepsReducer = (state: ModalData, action: Action): ModalData => {
     case Types.okData:
       return {
         title: 'Correct data on all steps',
-        html: 'Process payment',
+        html: 'Starting video upload and payment process',
         error: false,
         loading: true,
       };
@@ -46,39 +44,33 @@ export const stepsReducer = (state: ModalData, action: Action): ModalData => {
         html: `Please check your: <ul><strong>${errors.description}</strong></ul>`,
         error: true,
         loading: false,
+        close: true,
       };
     }
 
-    case Types.okPayment:
+    case Types.okSession:
       return {
-        title: 'Satisfactory payment',
-        html: 'Start video upload',
+        title: 'Start video upload',
+        html: 'Uploading file to server',
         error: false,
         loading: true,
       };
 
-    case Types.errorPayment:
-      return {
-        title: 'Error with the payment',
-        html: `Please try again in a few minutes or contact <strong>info@hidefaces.app</strong>`,
-        error: true,
-        loading: false,
-      };
-
     case Types.okFinal:
       return {
-        title: 'Start video processing',
-        html: `The tracking code is: <strong>${action.id}</strong>. In less than 30 minutes, you will receive it via email: <strong>${action.email}</strong>.`,
+        title: 'Satisfactory upload',
+        html: 'Redirecting to the payment gateway',
         error: false,
         loading: false,
       };
 
     case Types.errorFinal:
       return {
-        title: 'Video error',
-        html: `Please contact us via <strong>info@hidefaces.app</strong> to request a refund using code: <strong>${action.id}</strong>`,
+        title: 'Unexpected error',
+        html: `Please try again in a few minutes or contact <strong>info@hidefaces.app</strong>`,
         error: true,
         loading: false,
+        close: true,
       };
 
     default:

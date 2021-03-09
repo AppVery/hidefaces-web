@@ -1,21 +1,20 @@
-import { useState, useReducer } from 'react';
+import { useState, useReducer, useMemo } from 'react';
 import { stepsReducer, Types } from './stepsReducer';
 import config from '../config';
-import { Token } from '@stripe/stripe-js';
 import axios from 'axios';
 import { ModalData } from '../containers/Modal';
+import { loadStripe } from '@stripe/stripe-js';
 
 type Data = {
   modalData: ModalData;
   email: string;
   file: File | null;
-  final: boolean;
 };
 
 type Handlers = {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
-  handlePay: (token: Token | undefined, quantity: number) => void;
+  handlePay: (amount: number) => void;
 };
 
 type Response = [Data, Handlers];
@@ -23,35 +22,36 @@ type Response = [Data, Handlers];
 export const useSteps = (openNoticesModal: () => void): Response => {
   const [file, setFile] = useState<File | null>(null);
   const [email, setEmail] = useState<string>('');
-  const [final, setFinal] = useState<boolean>(false);
   const [modalData, dispatchModalData] = useReducer(stepsReducer, {
     title: 'Error',
     html: 'Check step error',
     error: true,
     loading: false,
   });
+  const stripePromise = useMemo(() => loadStripe(config.STRIPE_KEY), [config.STRIPE_KEY]);
 
   const getTempUploadUrl = async (
-    token: string,
-    quantity: number,
+    amount: number,
   ): Promise<{ id: string | null; url: string | null }> => {
     try {
       const response = await axios.post(config.endpoint, {
         email,
-        token,
         filename: file?.name,
-        quantity,
+        amount,
+        origin: window.location.origin,
       });
+
+      console.log('session', response);
 
       if (200 !== response.status) {
         throw Error();
       }
 
-      dispatchModalData({ type: Types.okPayment });
+      dispatchModalData({ type: Types.okSession });
       const { id, url } = response.data.response;
       return { id, url };
     } catch (error) {
-      dispatchModalData({ type: Types.errorPayment });
+      dispatchModalData({ type: Types.errorFinal });
       return { id: null, url: null };
     }
   };
@@ -66,11 +66,11 @@ export const useSteps = (openNoticesModal: () => void): Response => {
 
       dispatchModalData({ type: Types.okFinal, id, email });
     } catch (error) {
-      dispatchModalData({ type: Types.errorFinal, id });
+      dispatchModalData({ type: Types.errorFinal });
     }
   };
 
-  const checkData = (token: Token | undefined): boolean => {
+  const checkData = (): boolean => {
     const stepsWithError = [];
 
     if (!file) {
@@ -79,11 +79,8 @@ export const useSteps = (openNoticesModal: () => void): Response => {
     if (!email) {
       stepsWithError.push(2);
     }
-    if (!token) {
-      stepsWithError.push(3);
-    }
 
-    if (file && email && token) {
+    if (file && email) {
       dispatchModalData({ type: Types.okData });
       return true;
     } else {
@@ -92,27 +89,26 @@ export const useSteps = (openNoticesModal: () => void): Response => {
     }
   };
 
-  const resetData = (): void => {
-    setFile(null);
-    setEmail('');
-    setFinal(true);
-    setTimeout(() => {
-      setFinal(false);
-    }, 900000); //15 minutes max. to wait
-  };
-
-  const handlePay = async (token: Token | undefined, quantity: number) => {
-    const isOkData = checkData(token);
+  const handlePay = async (amount: number) => {
+    const isOkData = checkData();
     openNoticesModal();
 
-    if (token && isOkData) {
-      const { id, url } = await getTempUploadUrl(token.id, quantity);
+    if (isOkData) {
+      const stripe = await stripePromise;
+
+      if (!stripe) {
+        throw Error();
+      }
+
+      const { id, url } = await getTempUploadUrl(amount);
+
       if (id && url) {
         await uploadVideo(id, url);
-        resetData();
+
+        await stripe.redirectToCheckout({
+          sessionId: id,
+        });
       }
-    } else {
-      setFinal(false);
     }
   };
 
@@ -121,7 +117,6 @@ export const useSteps = (openNoticesModal: () => void): Response => {
       modalData,
       email,
       file,
-      final,
     },
     {
       setFile,
