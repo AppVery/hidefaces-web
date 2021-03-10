@@ -6,7 +6,7 @@ const isDev = () => process.env.REACT_APP_STAGE === 'dev';
 const isProd = () => process.env.REACT_APP_STAGE === 'prod';
 
 const getAPIendpoint = (id: string, stage: string) =>
-  `https://${id}.execute-api.eu-west-1.amazonaws.com/${stage}/payment`;
+  `https://${id}.execute-api.eu-west-1.amazonaws.com/${stage}/check`;
 
 const dev = {
   endpoint: getAPIendpoint(isDev() ? devId : generalId, 'dev'),
