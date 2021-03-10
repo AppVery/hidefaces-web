@@ -24,7 +24,7 @@ const config = {
   PRICE: 200,
   MAX_PRICE: 500,
   MAX_SECONDS: 30,
-  MAX_MEGABYTES: 50,
+  MAX_MEGABYTES: 100,
   // Default to dev if not set
   ...(isProd() ? prod : dev),
 };
