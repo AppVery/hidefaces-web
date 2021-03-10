@@ -1,9 +1,11 @@
+const MAX_MB = '50';
+const MAX_SECONDS = '30';
+
 export const stepsContent = [
   {
     title: 'Step 1',
     subtitle: 'Choose your video',
-    description:
-      'Upload a file or drag and drop. You can upload a video up to 30 seconds and 100 megabytes long and it will be deleted at the end of the process.',
+    description: `Upload a file or drag and drop. You can upload a video up to ${MAX_SECONDS} seconds and ${MAX_MB} megabytes long and it will be deleted at the end of the process.`,
   },
   {
     title: 'Step 2',
@@ -26,8 +28,8 @@ export const stepsContent = [
 ];
 
 export const fileContent = {
-  text1: 'Max. duration: 30 seconds',
-  text2: 'Max. size: 50MB',
+  text1: `Max. duration: ${MAX_SECONDS} seconds`,
+  text2: `Max. size: ${MAX_MB}MB`,
   text3: 'Valid formats: mp4, mkv, mov, webm',
   dropText: 'Drop the files here...',
   error: 'Please enter valid video file',
