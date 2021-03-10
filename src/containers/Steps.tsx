@@ -26,7 +26,7 @@ const Steps: React.FC<{
           <File file={file} setFile={setFile} />
         </Step>
         <Step content={stepsContent[1]} ready={!!email}>
-          <Email email={email} setEmail={setEmail} fn={openLegalModal} />
+          <Email confirmEmail={setEmail} fn={openLegalModal} />
         </Step>
         <Step content={stepsContent[2]}>
           <Payment handlePay={handlePay} />

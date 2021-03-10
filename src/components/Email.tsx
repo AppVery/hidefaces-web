@@ -6,27 +6,25 @@ const emailPattern = new RegExp(
 );
 
 const Email: React.FC<{
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  confirmEmail: React.Dispatch<React.SetStateAction<string>>;
   fn: () => void;
-}> = ({ email, setEmail, fn: openLegalModal }) => {
+}> = ({ confirmEmail, fn: openLegalModal }) => {
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setError('');
     setEmail(e.currentTarget.value);
-    if (error) {
-      onLosesFocus(e);
-    }
   };
 
   const onLosesFocus = (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.currentTarget.value;
     if (!emailPattern.test(input)) {
       setError(emailContent.error);
-      setEmail('');
+      confirmEmail('');
     } else {
       setError('');
-      setEmail(input);
+      confirmEmail(input);
     }
   };
 
@@ -39,7 +37,7 @@ const Email: React.FC<{
     <div className="col-span-3 sm:col-span-2">
       <label className="mb-2 block text-ms text-red-400">{error}</label>
       <input
-        type="text"
+        type="email"
         name="email"
         id="email"
         value={email}
