@@ -37,6 +37,24 @@ const Content: React.FC<{ scrollTo: () => void }> = ({ scrollTo }) => {
           </aside>
         </div>
       </section>
+      <section className={sectionClass}>
+        <div className="mt-8">
+          <a
+            href="https://www.producthunt.com/posts/hidefaces?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-hidefaces"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              className="mx-auto"
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=287940&theme=dark"
+              alt="HideFaces - Automatically hide faces in videos with AI | Product Hunt"
+              style={{ width: '250', height: '54' }}
+              width="250"
+              height="54"
+            />
+          </a>
+        </div>
+      </section>
     </>
   );
 };
